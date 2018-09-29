@@ -43,8 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FightSystem.cs" />
-    <Compile Include="InventorySystem.cs" />
+    <Compile Include="Buildings.cs" />
+    <Compile Include="Systems\FightSystem.cs" />
+    <Compile Include="Systems\InventorySystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

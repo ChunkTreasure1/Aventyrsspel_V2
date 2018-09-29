@@ -5,3 +5,10 @@ C:\Programing\Äventyrspel_v2\Äventyrspel_v2\obj\Debug\Äventyrspel_v2.csprojAs
 C:\Programing\Äventyrspel_v2\Äventyrspel_v2\obj\Debug\Äventyrspel_v2.csproj.CoreCompileInputs.cache
 C:\Programing\Äventyrspel_v2\Äventyrspel_v2\obj\Debug\Äventyrspel_v2.exe
 C:\Programing\Äventyrspel_v2\Äventyrspel_v2\obj\Debug\Äventyrspel_v2.pdb
+C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\bin\Debug\Äventyrspel_v2.exe.config
+C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\bin\Debug\Äventyrspel_v2.exe
+C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\bin\Debug\Äventyrspel_v2.pdb
+C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\obj\Debug\Äventyrspel_v2.csprojAssemblyReference.cache
+C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\obj\Debug\Äventyrspel_v2.csproj.CoreCompileInputs.cache
+C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\obj\Debug\Äventyrspel_v2.exe
+C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\obj\Debug\Äventyrspel_v2.pdb

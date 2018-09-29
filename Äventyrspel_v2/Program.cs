@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Timers;
 using System.Threading;
 
@@ -14,7 +15,12 @@ namespace Äventyrspel_v2 {
         }
 
         FightSystem PlayerFightSystem = new FightSystem();
+        InventorySystem PlayerInventory = new InventorySystem();
+        Buildings RandomBuildings = new Buildings();
+
+        List<Attack> Attacks = new List<Attack>();
         System.Timers.Timer SleepTimer;
+        System.Timers.Timer WalkTimer;
 
         EGameConditions ConditionsToUse;
 
@@ -22,12 +28,15 @@ namespace Äventyrspel_v2 {
         string HungerStatus = "Full";
 
         bool IsSleeping = false;
+        bool IsWalking = false;
 
-        int RandomEnemyCountMax;
-        int RandomEnemyCountMin;
+        bool WalkTimerSet = false;
+
         int DaysAlive = 0;
-
         int GameHours = 0;
+
+        int RandomBuildingDistanceMax;
+        int RandomBuildingDistanceMin;
 
         static void Main(string[] args) {
 
@@ -130,7 +139,7 @@ namespace Äventyrspel_v2 {
                     //Always run this loop
                     while (true) {
 
-                        if (timerSet) {
+                        if (!timerSet) {
                             //Start a game timer that lasts for one game hour
                             GameTimer = SetGameTimer(2500);
                             timerSet = true;
@@ -265,8 +274,11 @@ namespace Äventyrspel_v2 {
             if (ConditionsToUse == EGameConditions.eGC_LasVegas) {
 
                 //Set the vars
-                RandomEnemyCountMax = 5;
-                RandomEnemyCountMin = 2;
+                RandomBuildings.RandomEnemyCountMax = 5;
+                RandomBuildings.RandomEnemyCountMin = 2;
+
+                RandomBuildingDistanceMax = 5;
+                RandomBuildingDistanceMin = 2;
 
                 //Start attacks
                 PlayerFightSystem.AddAttack(PlayerFightSystem.GunShot);
@@ -276,8 +288,11 @@ namespace Äventyrspel_v2 {
             else if (ConditionsToUse == EGameConditions.eGC_Manhattan) {
 
                 //Set the vars
-                RandomEnemyCountMax = 7;
-                RandomEnemyCountMin = 1;
+                RandomBuildings.RandomEnemyCountMax = 7;
+                RandomBuildings.RandomEnemyCountMin = 1;
+
+                RandomBuildingDistanceMax = 8;
+                RandomBuildingDistanceMin = 4;
 
                 //Start attacks
                 PlayerFightSystem.AddAttack(PlayerFightSystem.SniperShot);
@@ -287,8 +302,11 @@ namespace Äventyrspel_v2 {
             else if (ConditionsToUse == EGameConditions.eGC_PlainCity) {
 
                 //Set the vars
-                RandomEnemyCountMax = 3;
-                RandomEnemyCountMin = 1;
+                RandomBuildings.RandomEnemyCountMax = 3;
+                RandomBuildings.RandomEnemyCountMin = 1;
+
+                RandomBuildingDistanceMax = 10;
+                RandomBuildingDistanceMin = 7;
 
                 //Start attacks
                 PlayerFightSystem.AddAttack(PlayerFightSystem.SniperShot);
@@ -298,6 +316,7 @@ namespace Äventyrspel_v2 {
 
         }
 
+        //Shows the main UI
         void ShowMainUI() {
 
             //Always runs because we should always get back here
@@ -329,6 +348,8 @@ namespace Äventyrspel_v2 {
                 //If the player choses one
                 if (playerChoice == "1") {
 
+                    //Let's the player go out and search for items
+                    GoOut();
                 }
                 //If the player choses two
                 else if (playerChoice == "2") {
@@ -339,7 +360,8 @@ namespace Äventyrspel_v2 {
                 }
                 //If the player choses three
                 else if (playerChoice == "3") {
-
+                    //Shows the inventory
+                    PlayerInventory.ShowInventory();
                 }
                 //If the player choses four
                 else if (playerChoice == "4") {
@@ -377,7 +399,7 @@ namespace Äventyrspel_v2 {
                 for (int i = 0; i < 3; i++) {
 
                     Console.Write(".");
-                    System.Threading.Thread.Sleep(200);
+                    Thread.Sleep(200);
 
                 }
 
@@ -393,6 +415,50 @@ namespace Äventyrspel_v2 {
 
         }
 
+        //Called when the player wants to go out and venture
+        void GoOut() {
+
+            bool isOut = true;
+
+            while (isOut) {
+
+                IsWalking = true;
+
+                while (IsWalking) {
+
+                    Console.Clear();
+                    Console.Write("Walking");
+
+                    Random randomDisance = new Random();
+                    int randomHouseDist = randomDisance.Next(RandomBuildingDistanceMin, RandomBuildingDistanceMax + 1);
+
+                    if (!WalkTimerSet && IsWalking) {
+
+                        WalkTimer = SetWalkTimer(randomHouseDist);
+                        WalkTimerSet = true;
+                    }
+                    for (int i = 0; i < 3; i++) {
+
+                        Console.Write(".");
+                        Thread.Sleep(200);
+                    }
+
+                }
+
+                //Generate a new building
+                RandomBuildings.GenerateRandomBuilding(Attacks);
+
+                //Attack the enemies
+                for (int i = 0; i < RandomBuildings.Enemies.Count; i++) {
+
+                    PlayerFightSystem.Attack(RandomBuildings.Enemies[i]);
+
+                }
+
+            }
+
+        }
+
         //Creates a sleep timer
         System.Timers.Timer SetSleepTimer(int time) {
             //Create a timer
@@ -404,6 +470,19 @@ namespace Äventyrspel_v2 {
             return aTimer;
         }
 
+        //Create a walk timer
+        System.Timers.Timer SetWalkTimer(int time) {
+
+            //Create a timer
+            System.Timers.Timer aTimer = new System.Timers.Timer();
+            aTimer.Elapsed += new ElapsedEventHandler(WalkTimerElapsed);
+            aTimer.Interval = time * 500;
+            aTimer.Enabled = true;
+
+            return aTimer;
+
+        }
+
         //Called when the sleep timer has elapsed
         void SleepTimerElapsed(Object source, ElapsedEventArgs args) {
             IsSleeping = false;
@@ -411,8 +490,21 @@ namespace Äventyrspel_v2 {
             SleepTimer.Dispose();
         }
 
+        //Called when the walk timer has elapsed
+        void WalkTimerElapsed(Object source, ElapsedEventArgs args) {
+            IsWalking = false;
+            WalkTimer.Stop();
+            WalkTimer.Dispose();
+            WalkTimerSet = false;
+        }
+
         //Sets up the attacks with the correct values
         void SetAttacks() {
+
+            //Add the attacks to the Attacks list for enemy generation
+            Attacks.Add(PlayerFightSystem.GunShot);
+            Attacks.Add(PlayerFightSystem.ShotgunShot);
+            Attacks.Add(PlayerFightSystem.SniperShot);
 
         }
     }

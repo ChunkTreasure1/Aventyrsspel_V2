@@ -246,7 +246,7 @@ namespace Äventyrspel_v2 {
         public int Healh;
         public int MaxEnemyAttacks;
 
-        List<Attack> EnemyAttacks = new List<Attack>();
+        public List<Attack> EnemyAttacks = new List<Attack>();
 
         //Gets a random attack for the enemy
         public Attack GetEnemyAttack() {
