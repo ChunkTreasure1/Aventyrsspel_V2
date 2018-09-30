@@ -4,6 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*-------------------------------------------------------------------------------
+
+Author : Ivar Jönsson
+Project : Äventyrsspel_V2
+Purpose : Handels the random generation of buildings
+
+-------------------------------------------------------------------------------*/
+
 namespace Äventyrspel_v2 {
     class Buildings {
 

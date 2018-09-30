@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using System.Timers;
 using System.Threading;
 
+/*-------------------------------------------------------------------------------
+
+Author : Ivar Jönsson
+Project : Äventyrsspel_V2
+Purpose : The main game file
+
+-------------------------------------------------------------------------------*/
+
 namespace Äventyrspel_v2 {
     class Program {
 
@@ -37,6 +45,9 @@ namespace Äventyrspel_v2 {
 
         int RandomBuildingDistanceMax;
         int RandomBuildingDistanceMin;
+
+        int RandomLootAmountMax;
+        int RandomLootAmountMin;
 
         static void Main(string[] args) {
 
@@ -123,8 +134,10 @@ namespace Äventyrspel_v2 {
             ChooseStartLocation();
 
             //Set's the game conditions based on what you entered
-            SetGameConditions();
             SetAttacks();
+            SetFoods();
+            SetItems();
+            SetGameConditions();
 
             Thread t1 = new Thread(() => {
 
@@ -317,6 +330,9 @@ namespace Äventyrspel_v2 {
                 RandomBuildingDistanceMax = 5;
                 RandomBuildingDistanceMin = 2;
 
+                RandomLootAmountMax = 5;
+                RandomLootAmountMin = 1;
+
                 //Start attacks
                 PlayerFightSystem.AddAttack(PlayerFightSystem.GunShot);
                 PlayerFightSystem.AddAttack(PlayerFightSystem.ShotgunShot);
@@ -331,6 +347,9 @@ namespace Äventyrspel_v2 {
                 RandomBuildingDistanceMax = 8;
                 RandomBuildingDistanceMin = 4;
 
+                RandomLootAmountMax = 2;
+                RandomLootAmountMin = 1;
+
                 //Start attacks
                 PlayerFightSystem.AddAttack(PlayerFightSystem.SniperShot);
                 PlayerFightSystem.AddAttack(PlayerFightSystem.ShotgunShot);
@@ -344,6 +363,9 @@ namespace Äventyrspel_v2 {
 
                 RandomBuildingDistanceMax = 10;
                 RandomBuildingDistanceMin = 7;
+
+                RandomLootAmountMax = 3;
+                RandomLootAmountMin = 1;
 
                 //Start attacks
                 PlayerFightSystem.AddAttack(PlayerFightSystem.SniperShot);
@@ -404,7 +426,8 @@ namespace Äventyrspel_v2 {
                     }
                     //If the player choses four
                     else if (playerChoice == "4") {
-
+                        //Show the food menu
+                        PlayerInventory.AccessFoodMenu(PlayerFightSystem);
                     }
                     else {
 
@@ -424,6 +447,10 @@ namespace Äventyrspel_v2 {
 
         //Called when the player wants to sleep
         void StartSleep() {
+
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Clear();
 
             //Set sleeping to true to let the while loop happen
             IsSleeping = true;
@@ -457,6 +484,9 @@ namespace Äventyrspel_v2 {
             Console.WriteLine("Press ENTER to continue");
 
             Console.ReadKey();
+
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
 
         }
 
@@ -509,10 +539,17 @@ namespace Äventyrspel_v2 {
 
                     //Attacks the enemy
                     PlayerFightSystem.Attack(RandomBuildings.Enemies[i], DaysAlive);
+                    Console.Clear();
+                    GetRandomFoodAndLoot();
+
+                    Console.WriteLine("Press ENTER to continue");
+                    Console.ReadKey();
 
                     //Runs while the player hasn't decided wether to eat or not
                     bool hasDecided = false;
                     while (!hasDecided) {
+
+                        Console.Clear();
 
                         Console.WriteLine("Would you like heal?");
                         Console.WriteLine("[Y]/[N]");
@@ -523,7 +560,7 @@ namespace Äventyrspel_v2 {
                         if (healInput == "Y" || healInput == "y") {
 
                             //Access the food menu
-                            PlayerInventory.AccessFoodMenu(PlayerFightSystem.PlayerHealth);
+                            PlayerInventory.AccessFoodMenu(PlayerFightSystem);
                             hasDecided = true;
 
                         }
@@ -559,6 +596,28 @@ namespace Äventyrspel_v2 {
                     }
 
                 }
+
+            }
+
+        }
+
+        //Gets random loot and food
+        void GetRandomFoodAndLoot() {
+
+            Random randomItems = new Random();
+
+            int randomItemAmount = randomItems.Next(RandomLootAmountMin, RandomLootAmountMax);
+            int randomFoodAmount = randomItems.Next(1, 2);
+
+            for (int i = 0; i < (randomItemAmount - randomFoodAmount); i++) {
+
+                PlayerInventory.PickupItem(PlayerInventory.AllItems[randomItems.Next(0, PlayerInventory.AllItems.Count - 1)]);
+
+            }
+
+            for (int i = 0; i < randomFoodAmount; i++) {
+
+                PlayerInventory.AddFood(PlayerInventory.AllFood[randomItems.Next(0, PlayerInventory.AllFood.Count - 1)]);
 
             }
 
@@ -630,6 +689,63 @@ namespace Äventyrspel_v2 {
             Attacks.Add(PlayerFightSystem.GunShot);
             Attacks.Add(PlayerFightSystem.ShotgunShot);
             Attacks.Add(PlayerFightSystem.SniperShot);
+
+        }
+
+        //Sets up the foods with the correct values
+        void SetFoods() {
+
+            //Add to the all list
+            PlayerInventory.AllFood.Add(PlayerInventory.Pasta);
+            PlayerInventory.AllFood.Add(PlayerInventory.Bread);
+            PlayerInventory.AllFood.Add(PlayerInventory.Rice);
+            PlayerInventory.AllFood.Add(PlayerInventory.Stew);
+
+            //Pasta
+            PlayerInventory.Pasta.FoodName = "Pasta";
+            PlayerInventory.Pasta.FoodPower = 20;
+            PlayerInventory.Pasta.HealingPower = 10;
+            //Pasta
+
+            //Bread
+            PlayerInventory.Bread.FoodName = "Bread";
+            PlayerInventory.Bread.FoodPower = 15;
+            PlayerInventory.Bread.HealingPower = 8;
+            //Bread
+
+            //Rice
+            PlayerInventory.Rice.FoodName = "Rice";
+            PlayerInventory.Rice.FoodPower = 10;
+            PlayerInventory.Rice.HealingPower = 20;
+            //Rice
+
+            //Stew
+            PlayerInventory.Stew.FoodName = "Stew";
+            PlayerInventory.Stew.FoodPower = 25;
+            PlayerInventory.Stew.HealingPower = 20;
+            //Stew
+
+        }
+
+        //Sets up the items with the correct values
+        void SetItems() {
+
+            //All the items
+            PlayerInventory.AllItems.Add(PlayerInventory.IronBar);
+            PlayerInventory.AllItems.Add(PlayerInventory.WoodenStick);
+            PlayerInventory.AllItems.Add(PlayerInventory.StoneBrick);
+
+            //Iron bar
+            PlayerInventory.IronBar.ItemName = "Iron bar";
+            //Iron bar
+
+            //Wooden stick
+            PlayerInventory.WoodenStick.ItemName = "Wooden stick";
+            //Wooden stick
+
+            //Stone brick
+            PlayerInventory.StoneBrick.ItemName = "Stone brick";
+            //Stone brick
 
         }
     }

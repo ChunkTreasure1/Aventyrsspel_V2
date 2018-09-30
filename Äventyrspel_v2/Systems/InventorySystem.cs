@@ -15,13 +15,26 @@ Purpose : Handels the players inventory
 namespace Äventyrspel_v2 {
     class InventorySystem {
 
-        List<string> Inventory = new List<string>();
+        List<Item> Inventory = new List<Item>();
         List<Food> Foods = new List<Food>();
+
+        public List<Item> AllItems = new List<Item>();
+        public List<Food> AllFood = new List<Food>();
+
+        public Food Pasta = new Food();
+        public Food Bread = new Food();
+        public Food Rice = new Food();
+
+        public Food Stew = new Food();
+
+        public Item IronBar = new Item();
+        public Item WoodenStick = new Item();
+        public Item StoneBrick = new Item();
 
         int MaxInventorySize = 10;
 
         //Adds an item to the inventory
-        public void PickupItem(string item) {
+        public void PickupItem(Item item) {
 
             //If the players inventory isn't full
             if (Inventory.Count < MaxInventorySize) {
@@ -29,10 +42,7 @@ namespace Äventyrspel_v2 {
                 //Add the item
                 Inventory.Add(item);
 
-                Console.WriteLine("Item '" + item + "' added to inventory!");
-                Console.WriteLine("Pess ENTER to continue");
-
-                Console.ReadKey();
+                Console.WriteLine("Item '" + item.ItemName + "' added to inventory!");
 
             }
 
@@ -78,7 +88,7 @@ namespace Äventyrspel_v2 {
             for (int i = 0; i < Inventory.Count; i++) {
 
                 //Write out every item
-                Console.WriteLine((i + 1) + ". " + Inventory[i]);
+                Console.WriteLine((i + 1) + ". " + Inventory[i].ItemName);
 
             }
 
@@ -91,10 +101,12 @@ namespace Äventyrspel_v2 {
 
             Foods.Add(food);
 
+            Console.WriteLine("Food '" + food.FoodName + "' added to food storage!");
+
         }
 
         //Access the food menu
-        public void AccessFoodMenu(int playerHealth) {
+        public void AccessFoodMenu(FightSystem fightSystem) {
 
             //Tell the player it's health and show the food in the food inventory
             Console.Clear();
@@ -102,7 +114,8 @@ namespace Äventyrspel_v2 {
             bool inMenu = true;
             while (inMenu) {
 
-                Console.WriteLine("Player health: " + playerHealth);
+                Console.Clear();
+                Console.WriteLine("Player health: " + fightSystem.PlayerHealth);
                 Console.WriteLine("Choose a food item to eat or choose 0 to quit");
 
                 //Show all the food items
@@ -134,7 +147,7 @@ namespace Äventyrspel_v2 {
                     //If selection - 1 is equal to the always increameanting j eat that item
                     if ((selection - 1) == j) {
 
-                        Foods[j].Eat();
+                        Eat(selection - 1, fightSystem);
                         notSelected = false;
                     }
 
@@ -154,6 +167,29 @@ namespace Äventyrspel_v2 {
 
         }
 
+        public void Eat(int foodToEat, FightSystem fightSystem) {
+
+            Console.Clear();
+
+            //Adds the values to the player
+            fightSystem.PlayerHealth += Foods[foodToEat].HealingPower;
+            fightSystem.FoodValue += Foods[foodToEat].FoodPower;
+
+            Console.WriteLine("You ate: " + Foods[foodToEat].FoodName + "!");
+            Console.WriteLine("Press ENTER to continue");
+            Console.ReadLine();
+
+            //Removes the food from the array
+            Foods.RemoveAt(foodToEat);
+
+        }
+
+    }
+
+    class Item {
+
+        public string ItemName;
+
     }
 
     class Food {
@@ -161,10 +197,6 @@ namespace Äventyrspel_v2 {
         public int HealingPower;
         public int FoodPower;
         public string FoodName;
-
-        public void Eat() {
-
-        }
 
     }
 }

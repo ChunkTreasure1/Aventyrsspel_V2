@@ -4,6 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*-------------------------------------------------------------------------------
+
+Author : Ivar Jönsson
+Project : Äventyrsspel_V2
+Purpose : Handels the games fighting system
+
+-------------------------------------------------------------------------------*/
+
 namespace Äventyrspel_v2 {
     class FightSystem {
 
