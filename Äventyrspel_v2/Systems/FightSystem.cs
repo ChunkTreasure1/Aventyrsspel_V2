@@ -9,15 +9,19 @@ namespace Äventyrspel_v2 {
 
         List<Attack> Attacks = new List<Attack>();
 
+        int EnemiesKilled = 0;
         public int PlayerHealth = 100;
+        public int FoodValue = 100;
+
         public bool IsAlive = true;
+        public string CauseOfDeath;
 
         public Attack GunShot = new Attack();
         public Attack ShotgunShot = new Attack();
         public Attack SniperShot = new Attack();
 
         //Called when the player should attack an enemy
-        public void Attack(Enemy enemyToAttack) {
+        public void Attack(Enemy enemyToAttack, int DaysAlive) {
 
             //While the player and the enemy is still alive
             while (IsAlive && enemyToAttack.IsAlive) {
@@ -107,21 +111,29 @@ namespace Äventyrspel_v2 {
                     ShowHealth(enemyToAttack);
 
                     Console.WriteLine("Press ENTER to attack again");
-
+                    Console.ReadKey();
 
                 }
 
             }
 
+            if (PlayerHealth <= 0) {
+                IsAlive = false;
+            }
+            else if (enemyToAttack.Healh <= 0) {
+                IsAlive = true;
+            }
+
             //Check if the player is alive, otherwise the player 
             //died and need to rerun the game
-            if (IsAlive == true) {
+            if (IsAlive) {
 
                 //Tell the player that the enemy died
                 Console.Clear();
                 Console.WriteLine("Enemy died!");
                 Console.WriteLine("Your health: " + PlayerHealth);
                 Console.WriteLine("Press ENTER to continue");
+                EnemiesKilled++;
                 Console.ReadKey();
 
             }
@@ -131,9 +143,11 @@ namespace Äventyrspel_v2 {
                 Console.Clear();
                 Console.WriteLine("You died :(");
                 Console.WriteLine("Press ENTER to continue");
+                Console.ReadKey();
 
+                CauseOfDeath = "Killed by enemy '" + enemyToAttack.name + "'";
                 //Shows the game over screen
-                ShowGameOver();
+                ShowGameOver(DaysAlive);
 
             }
 
@@ -191,7 +205,7 @@ namespace Äventyrspel_v2 {
         }
 
         //Shows the game over screen
-        void ShowGameOver() {
+        public void ShowGameOver(int DaysAlive) {
 
             Console.Clear();
 
@@ -217,8 +231,28 @@ namespace Äventyrspel_v2 {
             foreach (string line in gameOverScreen) {
 
                 Console.WriteLine(line);
-
+                System.Threading.Thread.Sleep(30);
             }
+
+            ShowStats(DaysAlive);
+
+            Console.WriteLine("Press ENTER to restart the game");
+            Console.ReadKey();
+
+            // Starts a new instance of the program itself
+            System.Diagnostics.Process.Start(System.AppDomain.CurrentDomain.FriendlyName);
+
+            // Closes the current process
+            Environment.Exit(0);
+
+        }
+
+        //Shows the players stats on death
+        void ShowStats(int DaysAlive) {
+
+            Console.WriteLine("Days stayed alive: ");
+            Console.WriteLine("Enemies killed: " + EnemiesKilled);
+            Console.WriteLine("Cause of death: " + CauseOfDeath);
 
         }
 

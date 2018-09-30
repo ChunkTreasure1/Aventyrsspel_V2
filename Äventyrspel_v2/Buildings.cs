@@ -28,7 +28,6 @@ namespace Äventyrspel_v2 {
             for (int i = 0; i < enemies; i++) {
 
                 //Called to generate an enemy
-
                 Enemies.Add(GenerateEnemy(attacks));
 
             }
@@ -51,8 +50,8 @@ namespace Äventyrspel_v2 {
             //Create the new enemy
             Enemy newEnemy = new Enemy();
 
-            newEnemy.Healh = random.Next(80, 200);
-            newEnemy.MaxEnemyAttacks = random.Next(1, 5 + 1);
+            newEnemy.Healh = random.Next(80, 80);
+            newEnemy.MaxEnemyAttacks = random.Next(2, 5 + 1);
             newEnemy.name = names[random.Next(0, 5)];
 
             //Add all the attacks to the enemys attack array
