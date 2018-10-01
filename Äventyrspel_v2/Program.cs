@@ -699,7 +699,13 @@ namespace Äventyrspel_v2 {
             PlayerInventory.AllFood.Add(PlayerInventory.Pasta);
             PlayerInventory.AllFood.Add(PlayerInventory.Bread);
             PlayerInventory.AllFood.Add(PlayerInventory.Rice);
+
             PlayerInventory.AllFood.Add(PlayerInventory.Stew);
+            PlayerInventory.AllFood.Add(PlayerInventory.Nachos);
+            PlayerInventory.AllFood.Add(PlayerInventory.Tacos);
+
+            PlayerInventory.AllFood.Add(PlayerInventory.Meatballs);
+            PlayerInventory.AllFood.Add(PlayerInventory.Potatoes);
 
             //Pasta
             PlayerInventory.Pasta.FoodName = "Pasta";
@@ -725,6 +731,30 @@ namespace Äventyrspel_v2 {
             PlayerInventory.Stew.HealingPower = 20;
             //Stew
 
+            //Nachos
+            PlayerInventory.Nachos.FoodName = "Nachos";
+            PlayerInventory.Nachos.FoodPower = 25;
+            PlayerInventory.Nachos.HealingPower = 10;
+            //Nachos
+
+            //Tacos
+            PlayerInventory.Tacos.FoodName = "Tacos";
+            PlayerInventory.Tacos.FoodPower = 23;
+            PlayerInventory.Tacos.HealingPower = 6;
+            //Tacos
+
+            //Meatballs
+            PlayerInventory.Meatballs.FoodName = "Meatballs";
+            PlayerInventory.Meatballs.FoodPower = 17;
+            PlayerInventory.Meatballs.HealingPower = 10;
+            //Meatballs
+
+            //Potatoes
+            PlayerInventory.Potatoes.FoodName = "Potatoes";
+            PlayerInventory.Potatoes.FoodPower = 5;
+            PlayerInventory.Potatoes.HealingPower = 7;
+            //Potatoes
+
         }
 
         //Sets up the items with the correct values
@@ -734,6 +764,10 @@ namespace Äventyrspel_v2 {
             PlayerInventory.AllItems.Add(PlayerInventory.IronBar);
             PlayerInventory.AllItems.Add(PlayerInventory.WoodenStick);
             PlayerInventory.AllItems.Add(PlayerInventory.StoneBrick);
+
+            PlayerInventory.AllItems.Add(PlayerInventory.Pot);
+            PlayerInventory.AllItems.Add(PlayerInventory.PlasticBar);
+            PlayerInventory.AllItems.Add(PlayerInventory.RubberCube);
 
             //Iron bar
             PlayerInventory.IronBar.ItemName = "Iron bar";
@@ -746,6 +780,18 @@ namespace Äventyrspel_v2 {
             //Stone brick
             PlayerInventory.StoneBrick.ItemName = "Stone brick";
             //Stone brick
+
+            //Pot
+            PlayerInventory.Pot.ItemName = "Pot";
+            //Pot
+
+            //Plastic bar
+            PlayerInventory.PlasticBar.ItemName = "Plastic bar";
+            //Plastic bar
+
+            //Rubber cube
+            PlayerInventory.RubberCube.ItemName = "Rubber cube";
+            //Rubber cube
 
         }
     }

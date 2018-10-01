@@ -26,10 +26,19 @@ namespace Äventyrspel_v2 {
         public Food Rice = new Food();
 
         public Food Stew = new Food();
+        public Food Nachos = new Food();
+        public Food Tacos = new Food();
+
+        public Food Meatballs = new Food();
+        public Food Potatoes = new Food();
 
         public Item IronBar = new Item();
         public Item WoodenStick = new Item();
         public Item StoneBrick = new Item();
+
+        public Item Pot = new Item();
+        public Item PlasticBar = new Item();
+        public Item RubberCube = new Item();
 
         int MaxInventorySize = 10;
 
@@ -167,6 +176,7 @@ namespace Äventyrspel_v2 {
 
         }
 
+        //Eats a food item
         public void Eat(int foodToEat, FightSystem fightSystem) {
 
             Console.Clear();
