@@ -177,25 +177,35 @@ namespace Äventyrspel_v2 {
                 }
                 //Get the number to get the attack
                 string select = Console.ReadLine();
+                int selection = Convert.ToInt32(select);
 
                 //Return the attack that has been selected with the entered number above
-                if (select == "1") {
-                    return Attacks[0];
-                }
-                else if (select == "2") {
-                    return Attacks[1];
-                }
-                else if (select == "3") {
-                    return Attacks[2];
-                }
-                else if (select == "4") {
-                    return Attacks[3];
-                }
-                else if (select == "5") {
-                    return Attacks[4];
-                }
-                else {
-                    Console.WriteLine("Incorrect input!");
+                int j = 0;
+
+                //Bool to check if player has selected
+                bool notSelected = true;
+                while (notSelected) {
+
+                    //Check if the entered number is equal to the always incrementing j
+                    if ((selection - 1) == j) {
+
+                        //Set notSelected to false and return the selected attack
+                        notSelected = false;
+                        return Attacks[j];
+                    }
+                    //If j - 1 is equal to the amount of elements in the array
+                    else if ((j - 1) == Attacks.Count) {
+                        
+                        //Set j to 0
+                        j = 0;
+                    }
+                    //If nothing else
+                    else {
+
+                        //Increment j
+                        j++;
+                    }
+
                 }
 
             }
@@ -258,7 +268,7 @@ namespace Äventyrspel_v2 {
         //Shows the players stats on death
         void ShowStats(int DaysAlive) {
 
-            Console.WriteLine("Days stayed alive: ");
+            Console.WriteLine("Days stayed alive: " + DaysAlive);
             Console.WriteLine("Enemies killed: " + EnemiesKilled);
             Console.WriteLine("Cause of death: " + CauseOfDeath);
 
