@@ -58,7 +58,7 @@ namespace Äventyrspel_v2 {
             //Create the new enemy
             Enemy newEnemy = new Enemy();
 
-            newEnemy.Healh = random.Next(80, 80);
+            newEnemy.Healh = random.Next(80, 150);
             newEnemy.MaxEnemyAttacks = random.Next(2, 5 + 1);
             newEnemy.name = names[random.Next(0, 5)];
 

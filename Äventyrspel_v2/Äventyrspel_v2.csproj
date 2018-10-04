@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Buildings.cs" />
+    <Compile Include="Systems\CraftingSystem.cs" />
     <Compile Include="Systems\FightSystem.cs" />
     <Compile Include="Systems\InventorySystem.cs" />
     <Compile Include="Program.cs" />

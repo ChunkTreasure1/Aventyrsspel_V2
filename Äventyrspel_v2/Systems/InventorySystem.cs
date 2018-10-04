@@ -40,6 +40,8 @@ namespace Äventyrspel_v2 {
         public Item PlasticBar = new Item();
         public Item RubberCube = new Item();
 
+        public Item Nail = new Item();
+
         int MaxInventorySize = 10;
 
         //Adds an item to the inventory

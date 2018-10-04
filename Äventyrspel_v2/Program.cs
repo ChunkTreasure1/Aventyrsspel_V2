@@ -229,6 +229,12 @@ namespace Äventyrspel_v2 {
 
                     }
 
+                    if (PlayerFightSystem.PlayerHealth > 150) {
+
+                        PlayerFightSystem.PlayerHealth = 150;
+
+                    }
+
                 }
 
             });
@@ -393,7 +399,8 @@ namespace Äventyrspel_v2 {
                         @"1 - Go out and venture",
                         @"2 - Sleep",
                         @"3 - Access inventory",
-                        @"4 - Eat"
+                        @"4 - Eat",
+                        @"5 - HELP"
 
                     };
 
@@ -421,13 +428,21 @@ namespace Äventyrspel_v2 {
                     }
                     //If the player choses three
                     else if (playerChoice == "3") {
+
                         //Shows the inventory
                         PlayerInventory.ShowInventory();
                     }
                     //If the player choses four
                     else if (playerChoice == "4") {
+
                         //Show the food menu
                         PlayerInventory.AccessFoodMenu(PlayerFightSystem);
+                    }
+                    //If the player choses five
+                    else if (playerChoice == "5") {
+
+                        //Show the help menu
+                        ShowHelp();
                     }
                     else {
 
@@ -443,6 +458,11 @@ namespace Äventyrspel_v2 {
                 PlayerFightSystem.ShowGameOver(DaysAlive);
                 PlayerFightSystem.CauseOfDeath = "Starving";
             }
+        }
+
+        //Shows the help menu
+        void ShowHelp() {
+
         }
 
         //Called when the player wants to sleep
@@ -685,10 +705,32 @@ namespace Äventyrspel_v2 {
             PlayerFightSystem.SniperShot.AttackSpeed = 2;
             //Sniper shot
 
+            //Rocket
+            PlayerFightSystem.Rocket.AttackName = "Rocket";
+            PlayerFightSystem.Rocket.AttackDamage = 60;
+            PlayerFightSystem.Rocket.AttackSpeed = 1;
+            //Rocket
+
+            //Spear throw
+            PlayerFightSystem.SpearThrow.AttackName = "Spear throw";
+            PlayerFightSystem.SpearThrow.AttackDamage = 7;
+            PlayerFightSystem.SpearThrow.AttackSpeed = 3;
+            //Spear throw
+
+            //Nailgun Shot
+            PlayerFightSystem.NailgunShot.AttackName = "Nailgun shot";
+            PlayerFightSystem.NailgunShot.AttackDamage = 10;
+            PlayerFightSystem.NailgunShot.AttackSpeed = 9;
+            //Nailgun shot
+
             //Add the attacks to the Attacks list for enemy generation
             Attacks.Add(PlayerFightSystem.GunShot);
             Attacks.Add(PlayerFightSystem.ShotgunShot);
             Attacks.Add(PlayerFightSystem.SniperShot);
+
+            Attacks.Add(PlayerFightSystem.Rocket);
+            Attacks.Add(PlayerFightSystem.SpearThrow);
+            Attacks.Add(PlayerFightSystem.NailgunShot);
 
         }
 
@@ -769,6 +811,8 @@ namespace Äventyrspel_v2 {
             PlayerInventory.AllItems.Add(PlayerInventory.PlasticBar);
             PlayerInventory.AllItems.Add(PlayerInventory.RubberCube);
 
+            PlayerInventory.AllItems.Add(PlayerInventory.Nail);
+
             //Iron bar
             PlayerInventory.IronBar.ItemName = "Iron bar";
             //Iron bar
@@ -792,6 +836,9 @@ namespace Äventyrspel_v2 {
             //Rubber cube
             PlayerInventory.RubberCube.ItemName = "Rubber cube";
             //Rubber cube
+
+            //Nail
+            PlayerInventory.Nail.ItemName = "Nail";
 
         }
     }
