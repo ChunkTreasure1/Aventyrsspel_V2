@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Äventyrspel_v2.Systems;
 
 /*-------------------------------------------------------------------------------
 
@@ -17,6 +18,8 @@ namespace Äventyrspel_v2 {
 
         List<Item> Inventory = new List<Item>();
         List<Food> Foods = new List<Food>();
+
+        CraftingSystem playerCrafting = new CraftingSystem();
 
         public List<Item> AllItems = new List<Item>();
         public List<Food> AllFood = new List<Food>();
