@@ -15,7 +15,7 @@ Purpose : Handels the games fighting system
 namespace Äventyrspel_v2 {
     class FightSystem {
 
-        List<Attack> Attacks = new List<Attack>();
+        public List<Attack> Attacks = new List<Attack>();
 
         int EnemiesKilled = 0;
         public int PlayerHealth = 100;
@@ -30,7 +30,7 @@ namespace Äventyrspel_v2 {
 
         public Attack Rocket = new Attack();
         public Attack SpearThrow = new Attack();
-        public Attack NailgwunShot = new Attack();
+        public Attack NailgunShot = new Attack();
 
         //Called when the player should attack an enemy
         public void Attack(Enemy enemyToAttack, int DaysAlive) {
@@ -47,20 +47,8 @@ namespace Äventyrspel_v2 {
                     //If the players attack speed is less than the enemys attack speed
                     if (attackToUse.AttackSpeed < enemyAttack.AttackSpeed) {
 
-                        int enemyDamage = enemyAttack.AttackDamage;
-
-                        //If the enemys attack speed divided by two is less or equal to the players attack speed
-                        if ((enemyAttack.AttackSpeed / 2) >= attackToUse.AttackSpeed) {
-
-                            //Double the enemys attack damage
-                            enemyDamage *= 2;
-
-                            Console.WriteLine("Attacked twice!");
-                            Console.WriteLine("Attack Sucessful!");
-                        }
-
                         //Damage the player
-                        PlayerHealth -= enemyDamage;
+                        PlayerHealth -= enemyAttack.AttackDamage;
 
                         //If both the player and the enemy is still alive
                         if (PlayerHealth > 0 && enemyToAttack.Healh > 0) {
@@ -94,19 +82,6 @@ namespace Äventyrspel_v2 {
                     }
                     //If the players attack speed is greater than the enemys
                     else if (attackToUse.AttackSpeed > enemyAttack.AttackSpeed) {
-
-                        int playerDamage = attackToUse.AttackDamage;
-
-                        //If the players attack speed divided by two is greater than the enemys attacks speed
-                        if ((attackToUse.AttackSpeed / 2) >= enemyAttack.AttackSpeed) {
-
-                            //Double the players damage
-                            playerDamage *= 2;
-
-                            Console.WriteLine("Attacked twice!");
-                            Console.WriteLine("Attack successful!");
-
-                        }
 
                         //Damage the enemy
                         enemyToAttack.Healh -= attackToUse.AttackDamage;
@@ -156,39 +131,32 @@ namespace Äventyrspel_v2 {
 
                 }
 
-                if (PlayerHealth <= 0) {
-                    IsAlive = false;
-                }
-                else if (enemyToAttack.Healh <= 0) {
-                    IsAlive = true;
-                }
+            }
 
-                //Check if the player is alive, otherwise the player 
-                //died and need to rerun the game
-                if (IsAlive && enemyToAttack.IsAlive == false) {
+            //Check if the player is alive, otherwise the player 
+            //died and need to rerun the game
+            if (IsAlive && enemyToAttack.IsAlive == false) {
 
-                    //Tell the player that the enemy died
-                    Console.Clear();
-                    Console.WriteLine("Enemy died!");
-                    Console.WriteLine("Your health: " + PlayerHealth);
-                    Console.WriteLine("Press ENTER to continue");
-                    EnemiesKilled++;
-                    Console.ReadKey();
+                //Tell the player that the enemy died
+                Console.Clear();
+                Console.WriteLine("Enemy died!");
+                Console.WriteLine("Your health: " + PlayerHealth);
+                Console.WriteLine("Press ENTER to continue");
+                EnemiesKilled++;
+                Console.ReadKey();
 
-                }
-                else {
+            }
+            else {
 
-                    //Tell the player that it died and that it's game over
-                    Console.Clear();
-                    Console.WriteLine("You died :(");
-                    Console.WriteLine("Press ENTER to continue");
-                    Console.ReadKey();
+                //Tell the player that it died and that it's game over
+                Console.Clear();
+                Console.WriteLine("You died :(");
+                Console.WriteLine("Press ENTER to continue");
+                Console.ReadKey();
 
-                    CauseOfDeath = "Killed by enemy '" + enemyToAttack.name + "'";
-                    //Shows the game over screen
-                    ShowGameOver(DaysAlive);
-
-                }
+                CauseOfDeath = "Killed by enemy '" + enemyToAttack.name + "'";
+                //Shows the game over screen
+                ShowGameOver(DaysAlive);
 
             }
 
@@ -303,9 +271,10 @@ namespace Äventyrspel_v2 {
         //Shows the players stats on death
         void ShowStats(int DaysAlive) {
 
-            Console.WriteLine("Days stayed alive: ");
+            Console.WriteLine("Days stayed alive: " + DaysAlive);
             Console.WriteLine("Enemies killed: " + EnemiesKilled);
             Console.WriteLine("Cause of death: " + CauseOfDeath);
+            Console.WriteLine("Number of attacks: " + (Attacks.Count - 2));
 
         }
 

@@ -19,7 +19,7 @@ namespace Äventyrspel_v2 {
         List<Item> Inventory = new List<Item>();
         List<Food> Foods = new List<Food>();
 
-        CraftingSystem playerCrafting = new CraftingSystem();
+        CraftingSystem PlayerCrafting = new CraftingSystem();
 
         public List<Item> AllItems = new List<Item>();
         public List<Food> AllFood = new List<Food>();
@@ -63,13 +63,13 @@ namespace Äventyrspel_v2 {
         }
 
         //Drops an item from the players inventory
-        public void DropItem() {
+        public void DropItem(InventorySystem playerInventory, FightSystem fightSystem) {
 
             bool hasDropped = false;
 
             while (hasDropped) {
 
-                ShowInventory();
+                ShowInventory(playerInventory, fightSystem);
                 Console.WriteLine("Choose an item to drop or go back using 0");
                 //Gets the players input and converts it
                 int itemToDrop = Convert.ToInt32(Console.ReadLine());
@@ -94,9 +94,10 @@ namespace Äventyrspel_v2 {
         }
 
         //Shows the players inventory
-        public void ShowInventory() {
+        public void ShowInventory(InventorySystem playerInventory, FightSystem fightSystem) {
 
             Console.Clear();
+            Console.WriteLine("Your Inventory: ");
 
             //Go through every element in the inventory
             for (int i = 0; i < Inventory.Count; i++) {
@@ -106,7 +107,21 @@ namespace Äventyrspel_v2 {
 
             }
 
-            Console.ReadKey();
+            Console.WriteLine("");
+            Console.WriteLine("Press 0 to enter crafting menu");
+
+            string input = Console.ReadLine();
+
+            //If the player chooses 0
+            if (input == "0") {
+
+                //Show the crafting menu
+                PlayerCrafting.ShowCraftingMenu(fightSystem, playerInventory);
+
+            }
+            else {
+                return;
+            }
 
         }
 
@@ -196,6 +211,70 @@ namespace Äventyrspel_v2 {
 
             //Removes the food from the array
             Foods.RemoveAt(foodToEat);
+
+        }
+
+        //Sets all of the recipes values
+        public void SetRecipes(FightSystem fightSystem) {
+
+            //Add all recipes to the recipes list, do this to be able to show
+            //all recipes in recipe menu, and also to be able to painlessly add
+            //new attacks if needed.
+            PlayerCrafting.Recipes.Add(PlayerCrafting.SpearThrowRes);
+            PlayerCrafting.Recipes.Add(PlayerCrafting.GunShotRes);
+            PlayerCrafting.Recipes.Add(PlayerCrafting.ShotgunShotRes);
+
+            PlayerCrafting.Recipes.Add(PlayerCrafting.SniperShotRes);
+            PlayerCrafting.Recipes.Add(PlayerCrafting.RocketRes);
+            PlayerCrafting.Recipes.Add(PlayerCrafting.NailgunShotRes);
+
+            //Spear throw
+            PlayerCrafting.SpearThrowRes.name = "Spear throw";
+            PlayerCrafting.SpearThrowRes.craftingItem1 = WoodenStick;
+            PlayerCrafting.SpearThrowRes.craftingItem2 = IronBar;
+
+            PlayerCrafting.SpearThrowRes.OutAttack = fightSystem.SpearThrow;
+            //Spear throw
+
+            //Gunshot
+            PlayerCrafting.GunShotRes.name = "Gunshot";
+            PlayerCrafting.GunShotRes.craftingItem1 = IronBar;
+            PlayerCrafting.GunShotRes.craftingItem2 = IronBar;
+
+            PlayerCrafting.GunShotRes.OutAttack = fightSystem.GunShot;
+            //Gunshot
+
+            //Shotgun shot
+            PlayerCrafting.ShotgunShotRes.name = "Shotgun shot";
+            PlayerCrafting.ShotgunShotRes.craftingItem1 = WoodenStick;
+            PlayerCrafting.ShotgunShotRes.craftingItem2 = IronBar;
+
+            PlayerCrafting.ShotgunShotRes.OutAttack = fightSystem.ShotgunShot;
+            //Shotgun shot
+
+            //Sniper shot
+            PlayerCrafting.SniperShotRes.name = "Sniper shot";
+            PlayerCrafting.SniperShotRes.craftingItem1 = IronBar;
+            PlayerCrafting.SniperShotRes.craftingItem2 = RubberCube;
+
+            PlayerCrafting.SniperShotRes.OutAttack = fightSystem.SniperShot;
+            //Sniper shot
+
+            //Rocket
+            PlayerCrafting.RocketRes.name = "Rocket";
+            PlayerCrafting.RocketRes.craftingItem1 = IronBar;
+            PlayerCrafting.RocketRes.craftingItem2 = Pot;
+
+            PlayerCrafting.RocketRes.OutAttack = fightSystem.Rocket;
+            //Rocket
+
+            //Nailgun shot
+            PlayerCrafting.NailgunShotRes.name = "Nailgun shot";
+            PlayerCrafting.NailgunShotRes.craftingItem1 = Nail;
+            PlayerCrafting.NailgunShotRes.craftingItem2 = PlasticBar;
+
+            PlayerCrafting.NailgunShotRes.OutAttack = fightSystem.NailgunShot;
+            //Nailgun shot
 
         }
 

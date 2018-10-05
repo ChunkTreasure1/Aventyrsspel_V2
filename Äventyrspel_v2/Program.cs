@@ -430,7 +430,7 @@ namespace Äventyrspel_v2 {
                     else if (playerChoice == "3") {
 
                         //Shows the inventory
-                        PlayerInventory.ShowInventory();
+                        PlayerInventory.ShowInventory(PlayerInventory, PlayerFightSystem);
                     }
                     //If the player choses four
                     else if (playerChoice == "4") {
