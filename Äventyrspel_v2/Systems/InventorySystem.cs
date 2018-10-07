@@ -16,7 +16,7 @@ Purpose : Handels the players inventory
 namespace Äventyrspel_v2 {
     class InventorySystem {
 
-        List<Item> Inventory = new List<Item>();
+        public List<Item> Inventory = new List<Item>();
         List<Food> Foods = new List<Food>();
 
         CraftingSystem PlayerCrafting = new CraftingSystem();

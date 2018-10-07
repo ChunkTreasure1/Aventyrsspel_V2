@@ -463,6 +463,50 @@ namespace Äventyrspel_v2 {
         //Shows the help menu
         void ShowHelp() {
 
+            Console.Clear();
+
+            //The help menu text
+            var help = new[] {
+
+                @"HUNGER",
+                @"Hunger is a gameplay element that drops every game hour.",
+                @"You are able to se the hunger state in your status bar.",
+                @"To not die from hunger you need to eat food, which will",
+                @"be earned when an enemy has been killed.",
+                @"You can starve to death.",
+                @"",
+                @"HEALTH",
+                @"Health is a gameplay mechanic that is quite obviosly used when fighting enemies.",
+                @"The health, unlike the hunger status, will not drop over time. But you will lose",
+                @"health when fighting enemies. You heal your health by eating, if your health",
+                @"drops below 0, you will die.",
+                @"",
+                @"SLEEP",
+                @"Sleeping will make the game time pass a random amount of hours. For every hour you",
+                @"sleep you will earn 1 health point, Sleeping is also a viable way to earn health.",
+                @"",
+                @"CRAFTING",
+                @"You are able to craft new attacks from items that you get when killing an enemy.",
+                @"These other attacks are better than the stock ones, this will increase the survivability",
+                @"rate of the player.",
+                @"ATTACKING",
+                @"Attacks works by having a speed and a damage. The one with the greater speed will attack first, so",
+                @"choose your attacks wiesly."
+
+            };
+
+            //Print the text
+            foreach (string line in help) {
+
+                Console.WriteLine(line);
+
+            }
+
+            //Wait for player input
+            Console.WriteLine("");
+            Console.WriteLine("Press ENTER to continue");
+            Console.ReadKey();
+
         }
 
         //Called when the player wants to sleep

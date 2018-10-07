@@ -29,7 +29,35 @@ namespace Äventyrspel_v2.Systems {
         public Recipe NailgunShotRes = new Recipe();
 
         //Crafts a new attack from two items
-        public void Craft(InventorySystem playerInventory, int attackToCraft) {
+        public void Craft(InventorySystem playerInventory, FightSystem fightSystem, int attackToCraft) {
+
+            //Get the crafting items
+            Item craftingItem1 = Recipes[attackToCraft].craftingItem1;
+            Item craftingItem2 = Recipes[attackToCraft].craftingItem2;
+
+            //If the player has both the needed items in it's inventory
+            if (playerInventory.Inventory.Contains(craftingItem1) && playerInventory.Inventory.Contains(craftingItem2)) {
+
+                //Add the attack to the players attacks
+                //Then remove the recipe
+                fightSystem.AddAttack(Recipes[attackToCraft].OutAttack);
+                Console.WriteLine("Attack '" + Recipes[attackToCraft].name + "' crafted!");
+                Console.WriteLine("Press ENTER to continue");
+
+                Recipes.RemoveAt(attackToCraft);
+                Console.ReadKey();
+
+            }
+            //If the player doesn't have the required items
+            else {
+
+                //Tell the player that it doesn't have the required items, and send it back
+                Console.Clear();
+                Console.WriteLine("You do not have the required items!");
+                Console.WriteLine("Press ENTER to continue");
+                Console.ReadKey();
+
+            }
 
         }
 
@@ -73,7 +101,7 @@ namespace Äventyrspel_v2.Systems {
                     //If the selection - 1 is equal to the always incrementing j, craft that item
                     if ((selection - 1) == j) {
 
-                        Craft(playerInventory, selection - 1);
+                        Craft(playerInventory, fightSystem, selection - 1);
                         selected = true;
                     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Media;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,104 +39,107 @@ namespace Äventyrspel_v2 {
             //While the player and the enemy is still alive
             while (IsAlive && enemyToAttack.IsAlive) {
 
-                if (PlayerHealth > 0 && enemyToAttack.Healh > 0) {
+                //Get the players and the enemys attack
+                Attack attackToUse = GetAttack(enemyToAttack);
+                Attack enemyAttack = enemyToAttack.GetEnemyAttack();
 
-                    //Get the players and the enemys attack
-                    Attack attackToUse = GetAttack(enemyToAttack);
-                    Attack enemyAttack = enemyToAttack.GetEnemyAttack();
+                //If the players attack speed is less than the enemys attack speed
+                if (attackToUse.AttackSpeed < enemyAttack.AttackSpeed) {
 
-                    //If the players attack speed is less than the enemys attack speed
-                    if (attackToUse.AttackSpeed < enemyAttack.AttackSpeed) {
+                    //Damage the player
+                    PlayerHealth -= enemyAttack.AttackDamage;
 
-                        //Damage the player
-                        PlayerHealth -= enemyAttack.AttackDamage;
-
-                        //If both the player and the enemy is still alive
-                        if (PlayerHealth > 0 && enemyToAttack.Healh > 0) {
-
-                            //Damage the enemy
-                            enemyToAttack.Healh -= attackToUse.AttackDamage;
-
-                            //Show the enemys and the players health
-                            Console.Clear();
-                            Console.WriteLine("Attack Successful!");
-                            ShowHealth(enemyToAttack);
-
-                            Console.WriteLine("Press ENTER to attack again");
-                            Console.ReadKey();
-
-                        }
-                        //If one of them is not alive
-                        else {
-
-                            //Check who it is that is dead and end the loop
-                            if (PlayerHealth <= 0) {
-                                IsAlive = false;
-                                break;
-                            }
-                            else if (enemyToAttack.Healh <= 0) {
-                                enemyToAttack.IsAlive = false;
-                                break;
-                            }
-
-                        }
-                    }
-                    //If the players attack speed is greater than the enemys
-                    else if (attackToUse.AttackSpeed > enemyAttack.AttackSpeed) {
+                    //If both the player and the enemy is still alive
+                    if (PlayerHealth > 0 && enemyToAttack.Healh > 0) {
 
                         //Damage the enemy
                         enemyToAttack.Healh -= attackToUse.AttackDamage;
 
-                        //If the player and the enemy is still alive
-                        if (enemyToAttack.Healh > 0 && PlayerHealth > 0) {
-
-                            PlayerHealth -= enemyAttack.AttackDamage;
-
-                            //Show the players and the enemys health
-                            Console.Clear();
-                            Console.WriteLine("Attack Successful!");
-                            ShowHealth(enemyToAttack);
-
-                            Console.WriteLine("Press ENTER to attack again");
-                            Console.ReadKey();
-
-                        }
-                        //If on of them is dead
-                        else {
-
-                            //Check who it is that is dead
-                            if (PlayerHealth <= 0) {
-                                IsAlive = false;
-                                break;
-                            }
-                            else if (enemyToAttack.Healh <= 0) {
-                                enemyToAttack.IsAlive = false;
-                                break;
-                            }
-
-                        }
-
-                    }
-                    //If the attack speeds are the same
-                    else if (attackToUse.AttackSpeed == enemyAttack.AttackSpeed) {
-
-                        //Tell the player that the attacks have cancelled out
+                        //Show the enemys and the players health
                         Console.Clear();
-                        Console.WriteLine("The attack speed is the same! The attacks have cancelled out!");
+                        Console.WriteLine("Attack Successful!");
                         ShowHealth(enemyToAttack);
 
                         Console.WriteLine("Press ENTER to attack again");
                         Console.ReadKey();
 
                     }
+                    //If one of them is not alive
+                    else {
+
+                        //Check who it is that is dead and end the loop
+                        if (PlayerHealth <= 0) {
+                            IsAlive = false;
+                            break;
+                        }
+                        else if (enemyToAttack.Healh <= 0) {
+                            enemyToAttack.IsAlive = false;
+                            break;
+                        }
+
+                    }
+                }
+                //If the players attack speed is greater than the enemys
+                else if (attackToUse.AttackSpeed > enemyAttack.AttackSpeed) {
+
+                    //Damage the enemy
+                    enemyToAttack.Healh -= attackToUse.AttackDamage;
+
+                    //If the player and the enemy is still alive
+                    if (enemyToAttack.Healh > 0 && PlayerHealth > 0) {
+
+                        PlayerHealth -= enemyAttack.AttackDamage;
+
+                        //Show the players and the enemys health
+                        Console.Clear();
+                        Console.WriteLine("Attack Successful!");
+                        ShowHealth(enemyToAttack);
+
+                        Console.WriteLine("Press ENTER to attack again");
+                        Console.ReadKey();
+
+                    }
+                    //If on of them is dead
+                    else {
+
+                        //Check who it is that is dead
+                        if (PlayerHealth <= 0) {
+                            IsAlive = false;
+                            break;
+                        }
+                        else if (enemyToAttack.Healh <= 0) {
+                            enemyToAttack.IsAlive = false;
+                            break;
+                        }
+
+                    }
+
+                }
+                //If the attack speeds are the same
+                else if (attackToUse.AttackSpeed == enemyAttack.AttackSpeed) {
+
+                    //Tell the player that the attacks have cancelled out
+                    Console.Clear();
+                    Console.WriteLine("The attack speed is the same! The attacks have cancelled out!");
+                    ShowHealth(enemyToAttack);
+
+                    Console.WriteLine("Press ENTER to attack again");
+                    Console.ReadKey();
 
                 }
 
             }
 
+            if (PlayerHealth <= 0) {
+                IsAlive = false;
+            }
+            else if (enemyToAttack.Healh <= 0) {
+                IsAlive = true;
+            }
+
             //Check if the player is alive, otherwise the player 
             //died and need to rerun the game
-            if (IsAlive && enemyToAttack.IsAlive == false) {
+            if (IsAlive) {
 
                 //Tell the player that the enemy died
                 Console.Clear();
@@ -227,6 +231,10 @@ namespace Äventyrspel_v2 {
 
         //Shows the game over screen
         public void ShowGameOver(int DaysAlive) {
+
+            SoundPlayer player = new SoundPlayer();
+            player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Music/game_over.wav";
+            player.Play();
 
             Console.Clear();
 
