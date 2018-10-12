@@ -615,7 +615,7 @@ namespace Äventyrspel_v2 {
 
                         Console.Clear();
 
-                        Console.WriteLine("Would you like heal?");
+                        Console.WriteLine("Would you like to heal?");
                         Console.WriteLine("[Y]/[N]");
 
                         //Get the players input and check what it was
