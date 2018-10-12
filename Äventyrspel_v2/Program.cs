@@ -384,31 +384,48 @@ namespace Äventyrspel_v2 {
         //Shows the main UI
         void ShowMainUI() {
 
+            bool inMenu = true;
+
             if (PlayerFightSystem.IsAlive) {
 
                 //Always runs because we should always get back here
                 while (true) {
-
                     Console.Clear();
 
-                    var menu = new[] {
+                    //The main UI thread
+                    Thread UI = new Thread(() => {
 
-                        @"Player healh: " + PlayerFightSystem.PlayerHealth + "             " + "Days alive: " + DaysAlive + "             " + "Hunger: " + HungerStatus,
-                        @"",
-                        @"What would you like to do?",
-                        @"1 - Go out and venture",
-                        @"2 - Sleep",
-                        @"3 - Access inventory",
-                        @"4 - Eat",
-                        @"5 - HELP"
+                        //Do while in menu
+                        while (inMenu) {
 
-                    };
+                            //Clear the console
+                            Console.Clear();
 
-                    //Show the menu with a short delay between the lines to give an effect
-                    foreach (string line in menu) {
-                        Console.WriteLine(line);
-                        System.Threading.Thread.Sleep(30);
-                    }
+                            var menu = new[] {
+
+                                @"Player healh: " + PlayerFightSystem.PlayerHealth + "             " + "Days alive: " + DaysAlive + "             " + "Hunger: " + HungerStatus,
+                                @"",
+                                @"What would you like to do?",
+                                @"1 - Go out and venture",
+                                @"2 - Sleep",
+                                @"3 - Access inventory",
+                                @"4 - Eat",
+                                @"5 - HELP"
+
+                            };
+
+                            //Show the menu with a short delay between the lines to give an effect
+                            foreach (string line in menu) {
+                                Console.WriteLine(line);
+                                Thread.Sleep(30);
+                            }
+
+                            Thread.Sleep(2500);
+
+                        }
+
+                    });
+                    UI.Start();
 
                     //Get the players choice
                     string playerChoice = Console.ReadLine();
@@ -416,13 +433,17 @@ namespace Äventyrspel_v2 {
                     //If the player choses one
                     if (playerChoice == "1") {
 
-                        //Let's the player go out and search for items
+                        //Let's the player go out and search for 
+                        inMenu = false;
+                        UI.Join();
                         GoOut();
                     }
                     //If the player choses two
                     else if (playerChoice == "2") {
 
                         //Let's the player sleep
+                        inMenu = false;
+                        UI.Join();
                         StartSleep();
 
                     }
@@ -430,18 +451,24 @@ namespace Äventyrspel_v2 {
                     else if (playerChoice == "3") {
 
                         //Shows the inventory
+                        inMenu = false;
+                        UI.Join();
                         PlayerInventory.ShowInventory(PlayerInventory, PlayerFightSystem);
                     }
                     //If the player choses four
                     else if (playerChoice == "4") {
 
                         //Show the food menu
+                        inMenu = false;
+                        UI.Join();
                         PlayerInventory.AccessFoodMenu(PlayerFightSystem);
                     }
                     //If the player choses five
                     else if (playerChoice == "5") {
 
                         //Show the help menu
+                        inMenu = false;
+                        UI.Join();
                         ShowHelp();
                     }
                     else {
@@ -796,13 +823,13 @@ namespace Äventyrspel_v2 {
             //Pasta
             PlayerInventory.Pasta.FoodName = "Pasta";
             PlayerInventory.Pasta.FoodPower = 20;
-            PlayerInventory.Pasta.HealingPower = 10;
+            PlayerInventory.Pasta.HealingPower = 21;
             //Pasta
 
             //Bread
             PlayerInventory.Bread.FoodName = "Bread";
             PlayerInventory.Bread.FoodPower = 15;
-            PlayerInventory.Bread.HealingPower = 8;
+            PlayerInventory.Bread.HealingPower = 13;
             //Bread
 
             //Rice
@@ -814,19 +841,19 @@ namespace Äventyrspel_v2 {
             //Stew
             PlayerInventory.Stew.FoodName = "Stew";
             PlayerInventory.Stew.FoodPower = 25;
-            PlayerInventory.Stew.HealingPower = 20;
+            PlayerInventory.Stew.HealingPower = 30;
             //Stew
 
             //Nachos
             PlayerInventory.Nachos.FoodName = "Nachos";
             PlayerInventory.Nachos.FoodPower = 25;
-            PlayerInventory.Nachos.HealingPower = 10;
+            PlayerInventory.Nachos.HealingPower = 23;
             //Nachos
 
             //Tacos
             PlayerInventory.Tacos.FoodName = "Tacos";
             PlayerInventory.Tacos.FoodPower = 23;
-            PlayerInventory.Tacos.HealingPower = 6;
+            PlayerInventory.Tacos.HealingPower = 20;
             //Tacos
 
             //Meatballs
@@ -838,7 +865,7 @@ namespace Äventyrspel_v2 {
             //Potatoes
             PlayerInventory.Potatoes.FoodName = "Potatoes";
             PlayerInventory.Potatoes.FoodPower = 5;
-            PlayerInventory.Potatoes.HealingPower = 7;
+            PlayerInventory.Potatoes.HealingPower = 15;
             //Potatoes
 
         }
