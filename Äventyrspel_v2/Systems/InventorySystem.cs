@@ -13,7 +13,7 @@ Purpose : Handels the players inventory
 
 -------------------------------------------------------------------------------*/
 
-namespace Äventyrspel_v2 {
+namespace Äventyrspel_v2.Systems {
     class InventorySystem {
 
         public List<Item> Inventory = new List<Item>();

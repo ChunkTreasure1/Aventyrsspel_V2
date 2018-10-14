@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Timers;
 using System.Threading;
+using Äventyrspel_v2.Systems;
 
 /*-------------------------------------------------------------------------------
 
@@ -22,33 +23,40 @@ namespace Äventyrspel_v2 {
 
         }
 
+        //Main system creation
         FightSystem PlayerFightSystem = new FightSystem();
         InventorySystem PlayerInventory = new InventorySystem();
         Buildings RandomBuildings = new Buildings();
-
-        List<Attack> Attacks = new List<Attack>();
+        
+        //Timers and list to hold all attacks creation
+        List<Attack> AllAttacks = new List<Attack>();
         System.Timers.Timer SleepTimer;
         System.Timers.Timer WalkTimer;
 
         EGameConditions ConditionsToUse;
 
-        string PlayerName { get; set; }
+        //Player variables
+        string PlayerName;
         string HungerStatus = "Full";
 
+        //Game checking variables
         bool IsSleeping = false;
         bool IsWalking = false;
 
         bool WalkTimerSet = false;
 
+        //Time variables
         int DaysAlive = 0;
         int GameHours = 0;
 
+        //Generation variables
         int RandomBuildingDistanceMax;
         int RandomBuildingDistanceMin;
 
         int RandomLootAmountMax;
         int RandomLootAmountMin;
 
+        //The main entry point
         static void Main(string[] args) {
 
             //Sets the colors of the console
@@ -384,13 +392,12 @@ namespace Äventyrspel_v2 {
         //Shows the main UI
         void ShowMainUI() {
 
-            bool inMenu = true;
-
             if (PlayerFightSystem.IsAlive) {
 
                 //Always runs because we should always get back here
                 while (true) {
                     Console.Clear();
+                    bool inMenu = true;
 
                     //The main UI thread
                     Thread UI = new Thread(() => {
@@ -403,7 +410,7 @@ namespace Äventyrspel_v2 {
 
                             var menu = new[] {
 
-                                @"Player healh: " + PlayerFightSystem.PlayerHealth + "             " + "Days alive: " + DaysAlive + "             " + "Hunger: " + HungerStatus,
+                                @PlayerName + " health: " + PlayerFightSystem.PlayerHealth + "             " + "Days alive: " + DaysAlive + "             " + "Hunger: " + HungerStatus,
                                 @"",
                                 @"What would you like to do?",
                                 @"1 - Go out and venture",
@@ -417,10 +424,9 @@ namespace Äventyrspel_v2 {
                             //Show the menu with a short delay between the lines to give an effect
                             foreach (string line in menu) {
                                 Console.WriteLine(line);
-                                Thread.Sleep(30);
                             }
 
-                            Thread.Sleep(2500);
+                            Thread.Sleep(1500);
 
                         }
 
@@ -618,7 +624,7 @@ namespace Äventyrspel_v2 {
                 }
 
                 //Generate a new building
-                RandomBuildings.GenerateRandomBuilding(Attacks);
+                RandomBuildings.GenerateRandomBuilding(AllAttacks);
 
                 //Attack the enemies
                 for (int i = 0; i < RandomBuildings.Enemies.Count; i++) {
@@ -795,13 +801,13 @@ namespace Äventyrspel_v2 {
             //Nailgun shot
 
             //Add the attacks to the Attacks list for enemy generation
-            Attacks.Add(PlayerFightSystem.GunShot);
-            Attacks.Add(PlayerFightSystem.ShotgunShot);
-            Attacks.Add(PlayerFightSystem.SniperShot);
+            AllAttacks.Add(PlayerFightSystem.GunShot);
+            AllAttacks.Add(PlayerFightSystem.ShotgunShot);
+            AllAttacks.Add(PlayerFightSystem.SniperShot);
 
-            Attacks.Add(PlayerFightSystem.Rocket);
-            Attacks.Add(PlayerFightSystem.SpearThrow);
-            Attacks.Add(PlayerFightSystem.NailgunShot);
+            AllAttacks.Add(PlayerFightSystem.Rocket);
+            AllAttacks.Add(PlayerFightSystem.SpearThrow);
+            AllAttacks.Add(PlayerFightSystem.NailgunShot);
 
         }
 

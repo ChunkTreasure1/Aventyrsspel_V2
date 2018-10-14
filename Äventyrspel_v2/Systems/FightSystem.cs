@@ -13,7 +13,7 @@ Purpose : Handels the games fighting system
 
 -------------------------------------------------------------------------------*/
 
-namespace Äventyrspel_v2 {
+namespace Äventyrspel_v2.Systems {
     class FightSystem {
 
         public List<Attack> Attacks = new List<Attack>();
@@ -128,13 +128,13 @@ namespace Äventyrspel_v2 {
 
                 }
 
-            }
+                if (PlayerHealth <= 0) {
+                    IsAlive = false;
+                }
+                else if (enemyToAttack.Healh <= 0) {
+                    enemyToAttack.IsAlive = false;
+                }
 
-            if (PlayerHealth <= 0) {
-                IsAlive = false;
-            }
-            else if (enemyToAttack.Healh <= 0) {
-                IsAlive = true;
             }
 
             //Check if the player is alive, otherwise the player 
@@ -282,7 +282,7 @@ namespace Äventyrspel_v2 {
             Console.WriteLine("Days stayed alive: " + DaysAlive);
             Console.WriteLine("Enemies killed: " + EnemiesKilled);
             Console.WriteLine("Cause of death: " + CauseOfDeath);
-            Console.WriteLine("Number of attacks: " + (Attacks.Count - 2));
+            Console.WriteLine("Number of attacks crafted: " + (Attacks.Count - 2));
 
         }
 

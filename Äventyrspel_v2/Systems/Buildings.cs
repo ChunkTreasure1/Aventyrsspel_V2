@@ -12,11 +12,10 @@ Purpose : Handels the random generation of buildings
 
 -------------------------------------------------------------------------------*/
 
-namespace Äventyrspel_v2 {
+namespace Äventyrspel_v2.Systems {
     class Buildings {
 
         public List<Enemy> Enemies = new List<Enemy>();
-        List<Attack> Attacks = new List<Attack>();
 
         public int RandomEnemyCountMax;
         public int RandomEnemyCountMin;
