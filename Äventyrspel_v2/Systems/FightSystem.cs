@@ -180,7 +180,7 @@ namespace Äventyrspel_v2.Systems {
 
                 for (int i = 0; i < Attacks.Count; i++) {
 
-                    Console.WriteLine((i + 1) + " - " + Attacks[i].AttackName);
+                    Console.WriteLine((i + 1) + " - " + Attacks[i].AttackName + " - " + "Damage: " + Attacks[i].AttackDamage);
                 }
                 //Get the number to get the attack
                 int selection = Convert.ToInt32(Console.ReadLine());

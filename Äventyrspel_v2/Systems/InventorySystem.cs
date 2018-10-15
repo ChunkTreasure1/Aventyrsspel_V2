@@ -144,14 +144,14 @@ namespace Äventyrspel_v2.Systems {
             while (inMenu) {
 
                 Console.Clear();
-                Console.WriteLine("Player health: " + fightSystem.PlayerHealth);
+                Console.WriteLine("Health: " + fightSystem.PlayerHealth + "              " + "Hunger: " + fightSystem.FoodValue + "/100");
                 Console.WriteLine("Choose a food item to eat or choose 0 to quit");
 
                 //Show all the food items
                 for (int i = 0; i < Foods.Count; i++) {
 
                     //Shows the food and it's healing power
-                    Console.WriteLine((i + 1) + ". " + Foods[i].FoodName + " - " + "+" + Foods[i].HealingPower);
+                    Console.WriteLine((i + 1) + ". " + Foods[i].FoodName + " - " + "+" + Foods[i].HealingPower + ", +" + Foods[i].FoodPower);
 
                 }
 
