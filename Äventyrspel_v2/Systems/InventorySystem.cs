@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Äventyrspel_v2.Systems;
+using System.Threading;
 
 /*-------------------------------------------------------------------------------
 
@@ -97,6 +94,7 @@ namespace Äventyrspel_v2.Systems {
         public void ShowInventory(InventorySystem playerInventory, FightSystem fightSystem) {
 
             Console.Clear();
+            SetRecipes(fightSystem);
             Console.WriteLine("Your Inventory: ");
 
             //Go through every element in the inventory
@@ -139,57 +137,68 @@ namespace Äventyrspel_v2.Systems {
 
             //Tell the player it's health and show the food in the food inventory
             Console.Clear();
-
             bool inMenu = true;
-            while (inMenu) {
 
-                Console.Clear();
-                Console.WriteLine("Health: " + fightSystem.PlayerHealth + "              " + "Hunger: " + fightSystem.FoodValue + "/100");
-                Console.WriteLine("Choose a food item to eat or choose 0 to quit");
+            Thread FoodMenu = new Thread(() => {
 
-                //Show all the food items
-                for (int i = 0; i < Foods.Count; i++) {
+                while (inMenu) {
 
-                    //Shows the food and it's healing power
-                    Console.WriteLine((i + 1) + ". " + Foods[i].FoodName + " - " + "+" + Foods[i].HealingPower + ", +" + Foods[i].FoodPower);
+                    Console.Clear();
+
+                    Console.WriteLine("Health: " + fightSystem.PlayerHealth + "              " + "Hunger: " + fightSystem.FoodValue + "/100");
+                    Console.WriteLine("Choose a food item to eat or choose 0 to quit");
+
+                    //Show all the food items
+                    for (int i = 0; i < Foods.Count; i++) {
+
+                        //Shows the food and it's healing power
+                        Console.WriteLine((i + 1) + ". " + Foods[i].FoodName + " - " + "+" + Foods[i].HealingPower + ", +" + Foods[i].FoodPower);
+
+                    }
+
+                    Thread.Sleep(1500);
 
                 }
 
-                //Get the user input
-                int selection = Convert.ToInt32(Console.ReadLine());
+            });
+            FoodMenu.Start();
 
-                //If the player chooses 0
-                if (selection == 0) {
+            //Get the user input
+            int selection = Convert.ToInt32(Console.ReadLine());
+
+            //If the player chooses 0
+            if (selection == 0) {
+
+                inMenu = false;
+                FoodMenu.Join();
+                return;
+
+            }
+
+            //Int and bool to handle the selection
+            int j = 0;
+            bool notSelected = true;
+
+            //While the player hasn't selected an item
+            while (notSelected) {
+
+                //If selection - 1 is equal to the always increameanting j eat that item
+                if ((selection - 1) == j) {
 
                     inMenu = false;
-                    return;
-
+                    FoodMenu.Join();
+                    Eat(selection - 1, fightSystem);
+                    notSelected = false;
                 }
 
-                //Int and bool to handle the selection
-                int j = 0;
-                bool notSelected = true;
-
-                //While the player hasn't selected an item
-                while (notSelected) {
-
-                    //If selection - 1 is equal to the always increameanting j eat that item
-                    if ((selection - 1) == j) {
-
-                        Eat(selection - 1, fightSystem);
-                        notSelected = false;
-                    }
-
-                    //If j is equal to the number of elements in the foods list
-                    if (j - 1 == Foods.Count) {
-                        //Set j to zero
-                        j = 0;
-                    }
-                    else {
-                        //Otherwise increment it
-                        j++;
-                    }
-
+                //If j is equal to the number of elements in the foods list
+                if (j - 1 == Foods.Count) {
+                    //Set j to zero
+                    j = 0;
+                }
+                else {
+                    //Otherwise increment it
+                    j++;
                 }
 
             }
@@ -234,6 +243,7 @@ namespace Äventyrspel_v2.Systems {
             PlayerCrafting.SpearThrowRes.craftingItem2 = IronBar;
 
             PlayerCrafting.SpearThrowRes.OutAttack = fightSystem.SpearThrow;
+            PlayerCrafting.SpearThrowRes.CraftXP = 30;
             //Spear throw
 
             //Gunshot
@@ -242,6 +252,7 @@ namespace Äventyrspel_v2.Systems {
             PlayerCrafting.GunShotRes.craftingItem2 = IronBar;
 
             PlayerCrafting.GunShotRes.OutAttack = fightSystem.GunShot;
+            PlayerCrafting.GunShotRes.CraftXP = 70;
             //Gunshot
 
             //Shotgun shot
@@ -250,6 +261,7 @@ namespace Äventyrspel_v2.Systems {
             PlayerCrafting.ShotgunShotRes.craftingItem2 = IronBar;
 
             PlayerCrafting.ShotgunShotRes.OutAttack = fightSystem.ShotgunShot;
+            PlayerCrafting.ShotgunShotRes.CraftXP = 100;
             //Shotgun shot
 
             //Sniper shot
@@ -258,6 +270,7 @@ namespace Äventyrspel_v2.Systems {
             PlayerCrafting.SniperShotRes.craftingItem2 = RubberCube;
 
             PlayerCrafting.SniperShotRes.OutAttack = fightSystem.SniperShot;
+            PlayerCrafting.SniperShotRes.CraftXP = 150;
             //Sniper shot
 
             //Rocket
@@ -266,6 +279,7 @@ namespace Äventyrspel_v2.Systems {
             PlayerCrafting.RocketRes.craftingItem2 = Pot;
 
             PlayerCrafting.RocketRes.OutAttack = fightSystem.Rocket;
+            PlayerCrafting.SniperShotRes.CraftXP = 140;
             //Rocket
 
             //Nailgun shot
@@ -274,6 +288,7 @@ namespace Äventyrspel_v2.Systems {
             PlayerCrafting.NailgunShotRes.craftingItem2 = PlasticBar;
 
             PlayerCrafting.NailgunShotRes.OutAttack = fightSystem.NailgunShot;
+            PlayerCrafting.SniperShotRes.CraftXP = 50;
             //Nailgun shot
 
         }

@@ -13,6 +13,7 @@ namespace Äventyrspel_v2.Systems {
         public Item craftingItem2;
 
         public Attack OutAttack;
+        public int CraftXP;
 
     }
 
@@ -43,6 +44,7 @@ namespace Äventyrspel_v2.Systems {
                 fightSystem.AddAttack(Recipes[attackToCraft].OutAttack);
                 Console.WriteLine("Attack '" + Recipes[attackToCraft].name + "' crafted!");
                 Console.WriteLine("Press ENTER to continue");
+                fightSystem.PlayerXP += Recipes[attackToCraft].CraftXP;
 
                 Recipes.RemoveAt(attackToCraft);
                 Console.ReadKey();

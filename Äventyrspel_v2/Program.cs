@@ -64,7 +64,7 @@ namespace Äventyrspel_v2 {
             Console.ForegroundColor = ConsoleColor.Black;
 
             //Sets the size of the console
-            Console.WindowWidth = 90;
+            Console.WindowWidth = 95;
             Console.WindowHeight = 20;
 
             Console.Clear();
@@ -175,6 +175,19 @@ namespace Äventyrspel_v2 {
 
                         }
 
+                        //If the players XP is greater than the players level times 100
+                        if (PlayerFightSystem.PlayerXP >= PlayerFightSystem.PlayerLevel * 100) {
+
+                            int diff = PlayerFightSystem.PlayerXP - PlayerFightSystem.PlayerLevel * 100;
+
+                            //Increase the player level and set the player xp to 0
+                            //Also add the difference to not lose any XP when leveling
+                            PlayerFightSystem.PlayerLevel++;
+                            PlayerFightSystem.PlayerXP = 0;
+                            PlayerFightSystem.PlayerXP += diff;
+
+                        }
+
                     }
 
                 }
@@ -183,7 +196,7 @@ namespace Äventyrspel_v2 {
                 void GameTimerElapsed(object sender, ElapsedEventArgs e) {
 
                     GameHours++;
-                    PlayerFightSystem.FoodValue -= 5;
+                    PlayerFightSystem.FoodValue -= 2;
 
                     GameTimer.Stop();
                     GameTimer.Dispose();
@@ -345,7 +358,7 @@ namespace Äventyrspel_v2 {
                 RandomBuildingDistanceMin = 2;
 
                 RandomLootAmountMax = 5;
-                RandomLootAmountMin = 1;
+                RandomLootAmountMin = 2;
 
                 //Start attacks
                 PlayerFightSystem.AddAttack(PlayerFightSystem.GunShot);
@@ -361,8 +374,8 @@ namespace Äventyrspel_v2 {
                 RandomBuildingDistanceMax = 8;
                 RandomBuildingDistanceMin = 4;
 
-                RandomLootAmountMax = 2;
-                RandomLootAmountMin = 1;
+                RandomLootAmountMax = 4;
+                RandomLootAmountMin = 2;
 
                 //Start attacks
                 PlayerFightSystem.AddAttack(PlayerFightSystem.SniperShot);
@@ -379,7 +392,7 @@ namespace Äventyrspel_v2 {
                 RandomBuildingDistanceMin = 7;
 
                 RandomLootAmountMax = 3;
-                RandomLootAmountMin = 1;
+                RandomLootAmountMin = 2;
 
                 //Start attacks
                 PlayerFightSystem.AddAttack(PlayerFightSystem.SniperShot);
@@ -410,7 +423,7 @@ namespace Äventyrspel_v2 {
 
                             var menu = new[] {
 
-                                @PlayerName + " health: " + PlayerFightSystem.PlayerHealth + "             " + "Days alive: " + DaysAlive + "             " + "Hunger: " + HungerStatus,
+                                @PlayerName + " health: " + PlayerFightSystem.PlayerHealth + "             " + "Days alive: " + DaysAlive + "             " + "Hunger: " + HungerStatus + "             " + PlayerName + " Level: " + PlayerFightSystem.PlayerLevel,
                                 @"",
                                 @"What would you like to do?",
                                 @"1 - Go out and venture",

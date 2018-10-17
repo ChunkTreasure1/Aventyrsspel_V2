@@ -24,6 +24,9 @@ namespace Äventyrspel_v2.Systems {
 
         public bool IsAlive = true;
         public string CauseOfDeath;
+        public int PlayerXP = 0;
+
+        public int PlayerLevel = 1;
 
         public Attack GunShot = new Attack();
         public Attack ShotgunShot = new Attack();
@@ -143,8 +146,10 @@ namespace Äventyrspel_v2.Systems {
 
                 //Tell the player that the enemy died
                 Console.Clear();
+                PlayerXP += enemyToAttack.XP;
                 Console.WriteLine("Enemy died!");
                 Console.WriteLine("Your health: " + PlayerHealth);
+                Console.WriteLine("Your XP: " + PlayerXP);
                 Console.WriteLine("Press ENTER to continue");
                 EnemiesKilled++;
                 Console.ReadKey();
@@ -280,6 +285,8 @@ namespace Äventyrspel_v2.Systems {
         void ShowStats(int DaysAlive) {
 
             Console.WriteLine("Days stayed alive: " + DaysAlive);
+            Console.WriteLine("Player XP: " + PlayerXP);
+            Console.WriteLine("Player level: " + PlayerLevel);
             Console.WriteLine("Enemies killed: " + EnemiesKilled);
             Console.WriteLine("Cause of death: " + CauseOfDeath);
             Console.WriteLine("Number of attacks crafted: " + (Attacks.Count - 2));
@@ -309,6 +316,8 @@ namespace Äventyrspel_v2.Systems {
         public bool IsAlive = true;
         public int Healh;
         public int MaxEnemyAttacks;
+
+        public int XP;
 
         public List<Attack> EnemyAttacks = new List<Attack>();
 

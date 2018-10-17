@@ -61,6 +61,20 @@ namespace Äventyrspel_v2.Systems {
             newEnemy.MaxEnemyAttacks = random.Next(2, 5 + 1);
             newEnemy.name = names[random.Next(0, 5)];
 
+            //If the enemy has more than three attacks
+            if (newEnemy.MaxEnemyAttacks > 3) {
+
+                //Generate a random amount of xp between 70 and 110
+                newEnemy.XP = random.Next(70, 110);
+
+            }
+            else {
+
+                //Generate a random amount of xp between 30 and 70
+                newEnemy.XP = random.Next(30, 70 + 1);
+
+            }
+
             //Add all the attacks to the enemys attack array
             for (int i = 0; i < newEnemy.MaxEnemyAttacks; i++) {
 
