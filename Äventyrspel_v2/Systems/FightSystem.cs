@@ -39,6 +39,9 @@ namespace Äventyrspel_v2.Systems {
         //Called when the player should attack an enemy
         public void Attack(Enemy enemyToAttack, int DaysAlive) {
 
+            //Resets the attacks uses
+            ResetUses();
+
             //While the player and the enemy is still alive
             while (IsAlive && enemyToAttack.IsAlive) {
 
@@ -53,10 +56,10 @@ namespace Äventyrspel_v2.Systems {
                     PlayerHealth -= enemyAttack.AttackDamage;
 
                     //If both the player and the enemy is still alive
-                    if (PlayerHealth > 0 && enemyToAttack.Healh > 0) {
+                    if (PlayerHealth > 0 && enemyToAttack.Health > 0) {
 
                         //Damage the enemy
-                        enemyToAttack.Healh -= attackToUse.AttackDamage;
+                        enemyToAttack.Health -= attackToUse.AttackDamage;
 
                         //Show the enemys and the players health
                         Console.Clear();
@@ -75,7 +78,7 @@ namespace Äventyrspel_v2.Systems {
                             IsAlive = false;
                             break;
                         }
-                        else if (enemyToAttack.Healh <= 0) {
+                        else if (enemyToAttack.Health <= 0) {
                             enemyToAttack.IsAlive = false;
                             break;
                         }
@@ -86,10 +89,10 @@ namespace Äventyrspel_v2.Systems {
                 else if (attackToUse.AttackSpeed > enemyAttack.AttackSpeed) {
 
                     //Damage the enemy
-                    enemyToAttack.Healh -= attackToUse.AttackDamage;
+                    enemyToAttack.Health -= attackToUse.AttackDamage;
 
                     //If the player and the enemy is still alive
-                    if (enemyToAttack.Healh > 0 && PlayerHealth > 0) {
+                    if (enemyToAttack.Health > 0 && PlayerHealth > 0) {
 
                         PlayerHealth -= enemyAttack.AttackDamage;
 
@@ -110,7 +113,7 @@ namespace Äventyrspel_v2.Systems {
                             IsAlive = false;
                             break;
                         }
-                        else if (enemyToAttack.Healh <= 0) {
+                        else if (enemyToAttack.Health <= 0) {
                             enemyToAttack.IsAlive = false;
                             break;
                         }
@@ -134,7 +137,7 @@ namespace Äventyrspel_v2.Systems {
                 if (PlayerHealth <= 0) {
                     IsAlive = false;
                 }
-                else if (enemyToAttack.Healh <= 0) {
+                else if (enemyToAttack.Health <= 0) {
                     enemyToAttack.IsAlive = false;
                 }
 
@@ -185,7 +188,7 @@ namespace Äventyrspel_v2.Systems {
 
                 for (int i = 0; i < Attacks.Count; i++) {
 
-                    Console.WriteLine((i + 1) + " - " + Attacks[i].AttackName + " - " + "Damage: " + Attacks[i].AttackDamage);
+                    Console.WriteLine((i + 1) + " - " + Attacks[i].AttackName + " - " + "Damage: " + Attacks[i].AttackDamage + " Uses: " + Attacks[i].Uses);
                 }
                 //Get the number to get the attack
                 int selection = Convert.ToInt32(Console.ReadLine());
@@ -200,9 +203,20 @@ namespace Äventyrspel_v2.Systems {
                     //If selection - 1 is equal to the always incrementing j, return that attack
                     if ((selection - 1) == j) {
 
-                        //Set not selected to false and return the attack
-                        notSelected = false;
-                        return Attacks[j];
+                        //If the attack has uses left
+                        if (Attacks[j].Uses > 0) {
+
+                            //Set not selected to false and return the attack
+                            Attacks[j].Uses -= 1;
+                            notSelected = false;
+                            return Attacks[j];
+
+                        }
+                        else {
+
+                            Console.WriteLine("You don't have enough uses left!");
+
+                        }
 
                     }
 
@@ -229,7 +243,7 @@ namespace Äventyrspel_v2.Systems {
         //Prints out the health of the player and the enemy
         void ShowHealth(Enemy enemyToAttack) {
 
-            Console.WriteLine("Enemy health: " + enemyToAttack.Healh);
+            Console.WriteLine("Enemy health: " + enemyToAttack.Health);
             Console.WriteLine("Player health: " + PlayerHealth);
 
         }
@@ -299,6 +313,19 @@ namespace Äventyrspel_v2.Systems {
             Attacks.Add(attack);
 
         }
+
+        //Resets the attacks uses
+        void ResetUses() {
+
+            GunShot.Uses = GunShot.MaxUses;
+            ShotgunShot.Uses = ShotgunShot.MaxUses;
+            SniperShot.Uses = SniperShot.MaxUses;
+
+            Rocket.Uses = Rocket.MaxUses;
+            SpearThrow.Uses = SpearThrow.MaxUses;
+            NailgunShot.Uses = NailgunShot.MaxUses;
+
+        }
     }
 
     class Attack {
@@ -307,6 +334,9 @@ namespace Äventyrspel_v2.Systems {
         public int AttackSpeed;
         public int AttackDamage;
 
+        public int MaxUses;
+        public int Uses;
+
     }
 
     class Enemy {
@@ -314,7 +344,7 @@ namespace Äventyrspel_v2.Systems {
         public string name;
 
         public bool IsAlive = true;
-        public int Healh;
+        public int Health;
         public int MaxEnemyAttacks;
 
         public int XP;

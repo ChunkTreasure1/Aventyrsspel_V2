@@ -22,7 +22,7 @@ namespace Äventyrspel_v2.Systems {
 
         //Generates random buildings when player 
         //decides to go out and venture
-        public void GenerateRandomBuilding(List<Attack> attacks) {
+        public void GenerateRandomBuilding(List<Attack> attacks, FightSystem fightSystem) {
 
             //Clear the list of enemies in the building at start
             Enemies.Clear();
@@ -35,14 +35,14 @@ namespace Äventyrspel_v2.Systems {
             for (int i = 0; i < enemies; i++) {
 
                 //Called to generate an enemy
-                Enemies.Add(GenerateEnemy(attacks));
+                Enemies.Add(GenerateEnemy(attacks, fightSystem));
 
             }
 
         }
 
         //Generates an enemy
-        Enemy GenerateEnemy(List<Attack> attacks) {
+        Enemy GenerateEnemy(List<Attack> attacks, FightSystem fightSystem) {
 
             List<string> names = new List<string>();
 
@@ -57,7 +57,23 @@ namespace Äventyrspel_v2.Systems {
             //Create the new enemy
             Enemy newEnemy = new Enemy();
 
-            newEnemy.Healh = random.Next(80, 150);
+            //Set the enemy's health based on the players level
+            if (fightSystem.PlayerLevel >= 15) {
+
+                newEnemy.Health = random.Next(80, 150);
+
+            }
+            else if (fightSystem.PlayerLevel >= 10){
+
+                newEnemy.Health = random.Next(50, 100);
+
+            }
+            else if (fightSystem.PlayerLevel >= 1) {
+
+                newEnemy.Health = random.Next(30, 60);
+
+            }
+
             newEnemy.MaxEnemyAttacks = random.Next(2, 5 + 1);
             newEnemy.name = names[random.Next(0, 5)];
 
@@ -79,6 +95,20 @@ namespace Äventyrspel_v2.Systems {
             for (int i = 0; i < newEnemy.MaxEnemyAttacks; i++) {
 
                 newEnemy.EnemyAttacks.Add(attacks[random.Next(0, attacks.Count)]);
+
+                //Check if sniper or rocket attack is added
+                if (newEnemy.EnemyAttacks[i].AttackName == "Sniper Shot" || newEnemy.EnemyAttacks[i].AttackName == "Rocket") {
+
+                    //Check if player is below level 15
+                    if (fightSystem.PlayerLevel < 15) {
+
+                        //Remove the attack
+                        newEnemy.EnemyAttacks.RemoveAt(i);
+                        i--;
+
+                    }
+
+                }
 
             }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Timers;
 using System.Threading;
@@ -39,6 +40,8 @@ namespace Äventyrspel_v2 {
         string PlayerName;
         string HungerStatus = "Full";
 
+        int MaxPlayerHealth = 150;
+
         //Game checking variables
         bool IsSleeping = false;
         bool IsWalking = false;
@@ -58,6 +61,10 @@ namespace Äventyrspel_v2 {
 
         //The main entry point
         static void Main(string[] args) {
+
+
+
+            Console.ReadKey();
 
             //Sets the colors of the console
             Console.BackgroundColor = ConsoleColor.White;
@@ -179,12 +186,15 @@ namespace Äventyrspel_v2 {
                         if (PlayerFightSystem.PlayerXP >= PlayerFightSystem.PlayerLevel * 100) {
 
                             int diff = PlayerFightSystem.PlayerXP - PlayerFightSystem.PlayerLevel * 100;
+                            MaxPlayerHealth += 10;
 
                             //Increase the player level and set the player xp to 0
                             //Also add the difference to not lose any XP when leveling
                             PlayerFightSystem.PlayerLevel++;
                             PlayerFightSystem.PlayerXP = 0;
                             PlayerFightSystem.PlayerXP += diff;
+
+                            PlayerFightSystem.PlayerHealth += PlayerFightSystem.PlayerLevel * 20;
 
                         }
 
@@ -250,7 +260,7 @@ namespace Äventyrspel_v2 {
 
                     }
 
-                    if (PlayerFightSystem.PlayerHealth > 150) {
+                    if (PlayerFightSystem.PlayerHealth > MaxPlayerHealth) {
 
                         PlayerFightSystem.PlayerHealth = 150;
 
@@ -378,7 +388,7 @@ namespace Äventyrspel_v2 {
                 RandomLootAmountMin = 2;
 
                 //Start attacks
-                PlayerFightSystem.AddAttack(PlayerFightSystem.SniperShot);
+                PlayerFightSystem.AddAttack(PlayerFightSystem.SpearThrow);
                 PlayerFightSystem.AddAttack(PlayerFightSystem.ShotgunShot);
 
             }
@@ -395,7 +405,7 @@ namespace Äventyrspel_v2 {
                 RandomLootAmountMin = 2;
 
                 //Start attacks
-                PlayerFightSystem.AddAttack(PlayerFightSystem.SniperShot);
+                PlayerFightSystem.AddAttack(PlayerFightSystem.NailgunShot);
                 PlayerFightSystem.AddAttack(PlayerFightSystem.GunShot);
 
             }
@@ -423,7 +433,9 @@ namespace Äventyrspel_v2 {
 
                             var menu = new[] {
 
-                                @PlayerName + " health: " + PlayerFightSystem.PlayerHealth + "             " + "Days alive: " + DaysAlive + "             " + "Hunger: " + HungerStatus + "             " + PlayerName + " Level: " + PlayerFightSystem.PlayerLevel,
+                                @PlayerName + " health: " + PlayerFightSystem.PlayerHealth + "             " 
+                                + "Days alive: " + DaysAlive + "             " + "Hunger: " + HungerStatus + "             " 
+                                + PlayerName + " Level: " + PlayerFightSystem.PlayerLevel,
                                 @"",
                                 @"What would you like to do?",
                                 @"1 - Go out and venture",
@@ -637,7 +649,7 @@ namespace Äventyrspel_v2 {
                 }
 
                 //Generate a new building
-                RandomBuildings.GenerateRandomBuilding(AllAttacks);
+                RandomBuildings.GenerateRandomBuilding(AllAttacks, PlayerFightSystem);
 
                 //Attack the enemies
                 for (int i = 0; i < RandomBuildings.Enemies.Count; i++) {
@@ -777,8 +789,10 @@ namespace Äventyrspel_v2 {
 
             //Gunshot
             PlayerFightSystem.GunShot.AttackName = "Gunshot";
-            PlayerFightSystem.GunShot.AttackDamage = 10;
+            PlayerFightSystem.GunShot.AttackDamage = 21;
             PlayerFightSystem.GunShot.AttackSpeed = 7;
+
+            PlayerFightSystem.GunShot.MaxUses = 5;
             //Gunshot
 
             //Shotgun shot
@@ -787,30 +801,40 @@ namespace Äventyrspel_v2 {
             PlayerFightSystem.ShotgunShot.AttackName = "Shotgun Shot";
             PlayerFightSystem.ShotgunShot.AttackDamage = randomDamage.Next(10, 50);
             PlayerFightSystem.ShotgunShot.AttackSpeed = 5;
+
+            PlayerFightSystem.ShotgunShot.MaxUses = 4;
             //Shotgun shot
 
             //Sniper shot
             PlayerFightSystem.SniperShot.AttackName = "Sniper Shot";
             PlayerFightSystem.SniperShot.AttackDamage = 70;
             PlayerFightSystem.SniperShot.AttackSpeed = 2;
+
+            PlayerFightSystem.SniperShot.MaxUses = 2;
             //Sniper shot
 
             //Rocket
             PlayerFightSystem.Rocket.AttackName = "Rocket";
             PlayerFightSystem.Rocket.AttackDamage = 60;
             PlayerFightSystem.Rocket.AttackSpeed = 1;
+
+            PlayerFightSystem.Rocket.MaxUses = 2;
             //Rocket
 
             //Spear throw
             PlayerFightSystem.SpearThrow.AttackName = "Spear throw";
-            PlayerFightSystem.SpearThrow.AttackDamage = 7;
+            PlayerFightSystem.SpearThrow.AttackDamage = 17;
             PlayerFightSystem.SpearThrow.AttackSpeed = 3;
+
+            PlayerFightSystem.SpearThrow.MaxUses = 5;
             //Spear throw
 
             //Nailgun Shot
             PlayerFightSystem.NailgunShot.AttackName = "Nailgun shot";
-            PlayerFightSystem.NailgunShot.AttackDamage = 10;
+            PlayerFightSystem.NailgunShot.AttackDamage = 13;
             PlayerFightSystem.NailgunShot.AttackSpeed = 9;
+
+            PlayerFightSystem.NailgunShot.MaxUses = 6;
             //Nailgun shot
 
             //Add the attacks to the Attacks list for enemy generation
