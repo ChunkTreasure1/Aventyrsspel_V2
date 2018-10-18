@@ -62,6 +62,50 @@ namespace Äventyrspel_v2 {
         //The main entry point
         static void Main(string[] args) {
 
+            //WRITE
+            try {
+
+                StreamWriter sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "\\Scoreboard.txt");
+
+                sw.WriteLine("test2");
+                sw.WriteLine("From the StreamWriter class");
+                sw.Close();
+
+            }
+            catch (Exception e) {
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            finally {
+                Console.WriteLine("Executing finally block.");
+            }
+
+            Console.ReadKey();
+
+            //READ
+            string line;
+            try {
+                StreamReader sr = new StreamReader(AppDomain.CurrentDomain.BaseDirectory + "\\Scoreboard.txt");
+
+                line = sr.ReadLine();
+
+                while (line != null) {
+
+                    Console.WriteLine(line);
+                    line = sr.ReadLine();
+
+                }
+
+                sr.Close();
+                Console.ReadLine();
+
+            }
+            catch (Exception e) {
+
+                Console.WriteLine("Exception: " + e.Message);
+            }
+            finally {
+                Console.WriteLine("Executing finally block.");
+            }
 
 
             Console.ReadKey();

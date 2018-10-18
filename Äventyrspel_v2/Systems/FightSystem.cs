@@ -305,6 +305,8 @@ namespace Äventyrspel_v2.Systems {
             Console.WriteLine("Cause of death: " + CauseOfDeath);
             Console.WriteLine("Number of attacks crafted: " + (Attacks.Count - 2));
 
+
+
         }
 
         //Adds an attack to the attacks list
