@@ -35,7 +35,6 @@ namespace Äventyrspel_v2 {
         System.Timers.Timer WalkTimer;
 
         EGameConditions ConditionsToUse;
-        AutoResetEvent WaitHandle = new AutoResetEvent(false);
 
         //Player variables
         string PlayerName;

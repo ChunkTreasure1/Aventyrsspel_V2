@@ -93,9 +93,6 @@ namespace Äventyrspel_v2.Systems {
         //Shows the players inventory
         public void ShowInventory(InventorySystem playerInventory, FightSystem fightSystem) {
 
-            PickupItem(RubberCube);
-            PickupItem(IronBar);
-
             Console.Clear();
             SetRecipes(fightSystem);
             Console.WriteLine("Your Inventory: ");
