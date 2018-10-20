@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Media;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 /*-------------------------------------------------------------------------------
 
@@ -188,7 +186,13 @@ namespace Äventyrspel_v2.Systems {
 
                 for (int i = 0; i < Attacks.Count; i++) {
 
-                    Console.WriteLine((i + 1) + " - " + Attacks[i].AttackName + " - " + "Damage: " + Attacks[i].AttackDamage + " Uses: " + Attacks[i].Uses);
+                    Console.Write((i + 1) + " - " + Attacks[i].AttackName + " - " + "Damage: ");
+
+                    Print.PrintColorText(Attacks[i].AttackDamage.ToString(), ConsoleColor.Red);
+                    Console.Write(" Uses: ");
+
+                    Print.PrintColorText(Attacks[i].Uses.ToString() + "\n", ConsoleColor.Green);
+
                 }
                 //Get the number to get the attack
                 int selection = Convert.ToInt32(Console.ReadLine());
@@ -203,19 +207,29 @@ namespace Äventyrspel_v2.Systems {
                     //If selection - 1 is equal to the always incrementing j, return that attack
                     if ((selection - 1) == j) {
 
-                        //If the attack has uses left
-                        if (Attacks[j].Uses > 0) {
+                        //Check if j is less than the amount of elements in Attacks
+                        if (j < Attacks.Count) {
 
-                            //Set not selected to false and return the attack
-                            Attacks[j].Uses -= 1;
-                            notSelected = false;
-                            return Attacks[j];
+                            //If the attack has uses left
+                            if (Attacks[j].Uses > 0) {
+
+                                //Set not selected to false and return the attack
+                                Attacks[j].Uses -= 1;
+                                notSelected = false;
+                                return Attacks[j];
+
+                            }
+                            else {
+
+                                Console.WriteLine("You don't have enough uses left!");
+                                break;
+
+                            }
 
                         }
                         else {
-
-                            Console.WriteLine("You don't have enough uses left!");
-
+                            //Set selected to false to re run the menu
+                            notSelected = false;
                         }
 
                     }
@@ -243,8 +257,12 @@ namespace Äventyrspel_v2.Systems {
         //Prints out the health of the player and the enemy
         void ShowHealth(Enemy enemyToAttack) {
 
-            Console.WriteLine("Enemy health: " + enemyToAttack.Health);
-            Console.WriteLine("Player health: " + PlayerHealth);
+            Console.Write("Enemy health: ");
+
+            Print.PrintColorText(enemyToAttack.Health.ToString() + "\n", ConsoleColor.Red);
+            Console.Write("Player health: ");
+
+            Print.PrintColorText(PlayerHealth.ToString() + "\n", ConsoleColor.Green);
 
         }
 
@@ -304,8 +322,6 @@ namespace Äventyrspel_v2.Systems {
             Console.WriteLine("Enemies killed: " + EnemiesKilled);
             Console.WriteLine("Cause of death: " + CauseOfDeath);
             Console.WriteLine("Number of attacks crafted: " + (Attacks.Count - 2));
-
-
 
         }
 

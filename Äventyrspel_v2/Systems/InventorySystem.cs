@@ -93,6 +93,9 @@ namespace Äventyrspel_v2.Systems {
         //Shows the players inventory
         public void ShowInventory(InventorySystem playerInventory, FightSystem fightSystem) {
 
+            PickupItem(RubberCube);
+            PickupItem(IronBar);
+
             Console.Clear();
             SetRecipes(fightSystem);
             Console.WriteLine("Your Inventory: ");
@@ -143,7 +146,14 @@ namespace Äventyrspel_v2.Systems {
 
                 Console.Clear();
 
-                Console.WriteLine("Health: " + fightSystem.PlayerHealth + "              " + "Hunger: " + fightSystem.FoodValue + "/100");
+                Console.Write("Health: ");
+                Print.PrintColorText(fightSystem.PlayerHealth.ToString(), ConsoleColor.Green);
+
+                Console.Write("              " + "Hunger: ");
+                Print.PrintColorText(fightSystem.FoodValue.ToString(), ConsoleColor.DarkYellow);
+
+                Console.Write("/");
+                Print.PrintColorText("100" + "\n", ConsoleColor.Green);    
                 Console.WriteLine("Choose a food item to eat or choose 0 to quit");
 
                 //Show all the food items
@@ -217,17 +227,6 @@ namespace Äventyrspel_v2.Systems {
         //Sets all of the recipes values
         public void SetRecipes(FightSystem fightSystem) {
 
-            //Add all recipes to the recipes list, do this to be able to show
-            //all recipes in recipe menu, and also to be able to painlessly add
-            //new attacks if needed.
-            PlayerCrafting.Recipes.Add(PlayerCrafting.SpearThrowRes);
-            PlayerCrafting.Recipes.Add(PlayerCrafting.GunShotRes);
-            PlayerCrafting.Recipes.Add(PlayerCrafting.ShotgunShotRes);
-
-            PlayerCrafting.Recipes.Add(PlayerCrafting.SniperShotRes);
-            PlayerCrafting.Recipes.Add(PlayerCrafting.RocketRes);
-            PlayerCrafting.Recipes.Add(PlayerCrafting.NailgunShotRes);
-
             //Spear throw
             PlayerCrafting.SpearThrowRes.name = "Spear throw";
             PlayerCrafting.SpearThrowRes.craftingItem1 = WoodenStick;
@@ -281,6 +280,17 @@ namespace Äventyrspel_v2.Systems {
             PlayerCrafting.NailgunShotRes.OutAttack = fightSystem.NailgunShot;
             PlayerCrafting.SniperShotRes.CraftXP = 50;
             //Nailgun shot
+
+            //Add all recipes to the recipes list, do this to be able to show
+            //all recipes in recipe menu, and also to be able to painlessly add
+            //new attacks if needed.
+            PlayerCrafting.Recipes.Add(PlayerCrafting.SpearThrowRes);
+            PlayerCrafting.Recipes.Add(PlayerCrafting.GunShotRes);
+            PlayerCrafting.Recipes.Add(PlayerCrafting.ShotgunShotRes);
+
+            PlayerCrafting.Recipes.Add(PlayerCrafting.SniperShotRes);
+            PlayerCrafting.Recipes.Add(PlayerCrafting.RocketRes);
+            PlayerCrafting.Recipes.Add(PlayerCrafting.NailgunShotRes);
 
         }
 

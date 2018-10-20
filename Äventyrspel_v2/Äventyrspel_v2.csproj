@@ -46,6 +46,7 @@
     <Compile Include="Systems\Buildings.cs" />
     <Compile Include="Systems\CraftingSystem.cs" />
     <Compile Include="Systems\FightSystem.cs" />
+    <Compile Include="Systems\Game.cs" />
     <Compile Include="Systems\InventorySystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,9 +56,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Music\game_over.wav">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Scoreboard.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

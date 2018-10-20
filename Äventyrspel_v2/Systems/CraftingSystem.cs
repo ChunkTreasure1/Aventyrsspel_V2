@@ -74,6 +74,7 @@ namespace Äventyrspel_v2.Systems {
                 Console.Clear();
                 Console.WriteLine("You have: " + fightSystem.Attacks.Count + " attacks!");
                 Console.WriteLine("Choose an Attack to craft or choose 0 to exit!");
+                Console.WriteLine();
 
                 //Print out all the recipes and it's needed items
                 for (int i = 0; i < Recipes.Count; i++) {
