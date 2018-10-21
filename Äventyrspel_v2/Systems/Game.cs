@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Media;
 using System.Collections.Generic;
 using System.Timers;
 using System.Threading;
@@ -61,6 +61,10 @@ namespace Äventyrspel_v2 {
 
         //Method that handels all the start funcitonality
         public void StartGame() {
+
+            SoundPlayer player = new SoundPlayer();
+            player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Music/background_music.wav";
+            player.Play();
 
             //Show the start screen
             ShowStartScreen();

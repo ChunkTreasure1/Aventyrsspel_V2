@@ -55,6 +55,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Music\background_music.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Music\game_over.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

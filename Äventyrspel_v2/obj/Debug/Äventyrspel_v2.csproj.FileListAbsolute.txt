@@ -13,3 +13,4 @@ C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\obj\Debug\Äventyrspel_v2.csproj.C
 C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\obj\Debug\Äventyrspel_v2.exe
 C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\obj\Debug\Äventyrspel_v2.pdb
 C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\bin\Debug\Music\game_over.wav
+C:\Programing\Aventyrsspel_V2\Äventyrspel_v2\bin\Debug\Music\background_music.wav
