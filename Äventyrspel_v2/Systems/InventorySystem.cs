@@ -94,7 +94,6 @@ namespace Äventyrspel_v2.Systems {
         public void ShowInventory(InventorySystem playerInventory, FightSystem fightSystem) {
 
             Console.Clear();
-            SetRecipes(fightSystem);
             Console.WriteLine("Your Inventory: ");
 
             //Go through every element in the inventory

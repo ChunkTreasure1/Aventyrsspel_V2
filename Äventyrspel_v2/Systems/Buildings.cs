@@ -35,14 +35,14 @@ namespace Äventyrspel_v2.Systems {
             for (int i = 0; i < enemies; i++) {
 
                 //Called to generate an enemy
-                Enemies.Add(GenerateEnemy(attacks, fightSystem));
+                Enemies.Add(GenerateEnemy(attacks, fightSystem, randomEnemies));
 
             }
 
         }
 
         //Generates an enemy
-        Enemy GenerateEnemy(List<Attack> attacks, FightSystem fightSystem) {
+        Enemy GenerateEnemy(List<Attack> attacks, FightSystem fightSystem, Random random) {
 
             List<string> names = new List<string>();
 
@@ -52,25 +52,23 @@ namespace Äventyrspel_v2.Systems {
             names.Add("Killerman");
             names.Add("Tester");
 
-            Random random = new Random();
-
             //Create the new enemy
             Enemy newEnemy = new Enemy();
 
             //Set the enemy's health based on the players level
             if (fightSystem.PlayerLevel >= 15) {
 
-                newEnemy.Health = random.Next(80, 150);
+                newEnemy.Health = random.Next(80, 150 + 1);
 
             }
             else if (fightSystem.PlayerLevel >= 10){
 
-                newEnemy.Health = random.Next(50, 100);
+                newEnemy.Health = random.Next(50, 100 + 1);
 
             }
             else if (fightSystem.PlayerLevel >= 1) {
 
-                newEnemy.Health = random.Next(30, 60);
+                newEnemy.Health = random.Next(30, 60 + 1);
 
             }
 

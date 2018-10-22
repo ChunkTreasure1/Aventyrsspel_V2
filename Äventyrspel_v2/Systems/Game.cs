@@ -64,7 +64,7 @@ namespace Äventyrspel_v2 {
 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Music/background_music.wav";
-            player.Play();
+            player.PlayLooping();
 
             //Show the start screen
             ShowStartScreen();
@@ -133,6 +133,7 @@ namespace Äventyrspel_v2 {
             SetFoods();
             SetItems();
             SetGameConditions();
+            PlayerInventory.SetRecipes(PlayerFightSystem);
 
             Thread t1 = new Thread(() => {
 
@@ -186,7 +187,16 @@ namespace Äventyrspel_v2 {
                 void GameTimerElapsed(object sender, ElapsedEventArgs e) {
 
                     GameHours++;
-                    PlayerFightSystem.FoodValue -= 2;
+
+                    if (PlayerFightSystem.PlayerLevel > 15) {
+
+                        PlayerFightSystem.FoodValue -= 2;
+                    }
+                    else {
+
+
+                        PlayerFightSystem.FoodValue -= 1;
+                    }
 
                     GameTimer.Stop();
                     GameTimer.Dispose();
@@ -242,7 +252,7 @@ namespace Äventyrspel_v2 {
 
                     if (PlayerFightSystem.PlayerHealth > MaxPlayerHealth) {
 
-                        PlayerFightSystem.PlayerHealth = 150;
+                        PlayerFightSystem.PlayerHealth = MaxPlayerHealth;
 
                     }
 
@@ -503,6 +513,13 @@ namespace Äventyrspel_v2 {
                         Console.ReadKey();
                     }
 
+                    //Check if players food level is less than zero
+                    if (PlayerFightSystem.FoodValue <= 0) {
+
+                        //Show the game over screen
+                        PlayerFightSystem.ShowGameOver(DaysAlive);
+                    }
+
                 }
             }
             else {
@@ -641,6 +658,13 @@ namespace Äventyrspel_v2 {
 
                 }
 
+                //Check if player food is less than 0
+                if (PlayerFightSystem.FoodValue <= 0) {
+
+                    //Kill the player
+                    PlayerFightSystem.ShowGameOver(DaysAlive);
+                }
+
                 //Generate a new building
                 RandomBuildings.GenerateRandomBuilding(AllAttacks, PlayerFightSystem);
 
@@ -684,6 +708,13 @@ namespace Äventyrspel_v2 {
                             hasDecided = true;
                         }
                     }
+                }
+
+                //Check if players hunger is below 0
+                if (PlayerFightSystem.FoodValue <= 0) {
+
+                    //Kill the player
+                    PlayerFightSystem.ShowGameOver(DaysAlive);
                 }
 
                 bool hasChosen = false;
