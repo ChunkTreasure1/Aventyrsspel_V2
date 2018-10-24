@@ -288,7 +288,7 @@ namespace Äventyrspel_v2 {
             };
 
             foreach (string line in startScreen) {
-                Console.WriteLine(line);
+                Print.PrintMiddle(line, 0, 0);
                 System.Threading.Thread.Sleep(5);
             }
 
@@ -421,8 +421,10 @@ namespace Äventyrspel_v2 {
                             //Clear the console
                             Console.Clear();
 
-                            Console.Write(PlayerName + "'s health: ");
-                            Print.PrintColorText(PlayerFightSystem.PlayerHealth.ToString(), ConsoleColor.Green);
+                            //Create some space between the wall and the text
+                            Console.Write("     ");
+
+                            SetHealthBar();
 
                             Console.Write("             " + "Days alive: ");
                             Print.PrintColorText(DaysAlive.ToString(), ConsoleColor.DarkYellow);
@@ -430,18 +432,21 @@ namespace Äventyrspel_v2 {
                             Console.Write("             " + "Hunger: ");
                             Print.PrintColorText(HungerStatus, ConsoleColor.Green);
 
-                            Console.Write("             " + PlayerName + "'s Level: ");
+                            Console.Write("             " + "Level: ");
                             Print.PrintColorText(PlayerFightSystem.PlayerLevel.ToString(), ConsoleColor.DarkCyan);
+
+                            Console.WriteLine("");
+                            Console.WriteLine("----------------------------------------------------------------------------------------------------------");
 
                             var menu = new[] {
 
                                 @"",
-                                @"What would you like to do?",
-                                @"1 - Go out and venture",
-                                @"2 - Sleep",
-                                @"3 - Access inventory",
-                                @"4 - Eat",
-                                @"5 - HELP"
+                                @"  What would you like to do?",
+                                @"  1 - Go out and venture",
+                                @"  2 - Sleep",
+                                @"  3 - Access inventory",
+                                @"  4 - Eat",
+                                @"  5 - HELP"
 
                             };
 
@@ -979,6 +984,67 @@ namespace Äventyrspel_v2 {
             PlayerInventory.Nail.ItemName = "Nail";
 
         }
+
+        //Sets the health bar
+        void SetHealthBar() {
+
+            string roomBefore = "";
+            string roomAfter = "";
+
+            double ratio = (double)PlayerFightSystem.PlayerHealth / (double)MaxPlayerHealth;
+
+            //Check if the ratio is greater than 2/3
+            if (ratio > 0.66) {
+
+                roomAfter = "     ";
+                roomBefore = "     ";
+
+            }
+            //Check if the ratio is greater than 1/3
+            else if (ratio > 0.33) {
+
+                roomAfter = "";
+                roomBefore = "     ";
+
+            }
+            else {
+
+                roomAfter = "";
+                roomBefore = "";
+
+            }
+
+            Console.Write("Health:   ");
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.Write(roomBefore);
+
+            //Check if the ratio is over 1/3 but less than 2/3
+            if (ratio > 0.33 && ratio < 0.66) {
+
+                //Set the background color to white and type the text out
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.Write(PlayerFightSystem.PlayerHealth + "/" + MaxPlayerHealth);
+
+            }
+            //Check if the ratio is less than 1/3
+            else if (ratio < 0.33) {
+
+                //Set the background color to white and type the text out
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.Write(PlayerFightSystem.PlayerHealth + "/" + MaxPlayerHealth);
+
+            }
+            else {
+
+                Console.Write(PlayerFightSystem.PlayerHealth + "/" + MaxPlayerHealth);
+
+            }
+            Console.Write(roomAfter);
+
+            Console.BackgroundColor = ConsoleColor.White;
+
+        }
+
     }
 
 }
