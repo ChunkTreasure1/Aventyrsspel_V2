@@ -29,7 +29,7 @@ namespace Äventyrspel_v2.Systems {
             Random randomEnemies = new Random();
 
             //Generate a random amount of enemies
-            int enemies = randomEnemies.Next(RandomEnemyCountMin, RandomEnemyCountMax);
+            int enemies = randomEnemies.Next(RandomEnemyCountMin, RandomEnemyCountMax + 1);
 
             //Generates the enemies
             for (int i = 0; i < enemies; i++) {
@@ -37,7 +37,7 @@ namespace Äventyrspel_v2.Systems {
                 //Called to generate an enemy
                 Enemies.Add(GenerateEnemy(attacks, fightSystem, randomEnemies));
 
-            }
+            } 
 
         }
 
