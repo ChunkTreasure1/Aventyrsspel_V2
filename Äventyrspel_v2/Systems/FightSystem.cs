@@ -296,13 +296,13 @@ namespace Äventyrspel_v2.Systems {
             //Writes out the game over screen
             foreach (string line in gameOverScreen) {
 
-                Console.WriteLine(line);
+                Print.PrintMiddle(line, true, 0, 0);
                 System.Threading.Thread.Sleep(30);
             }
 
             ShowStats(DaysAlive);
 
-            Console.WriteLine("Press ENTER to restart the game");
+            Print.PrintMiddle("Press ENTER to restart the game", true, 0, 0);
             Console.ReadKey();
 
             // Starts a new instance of the program itself
@@ -316,12 +316,25 @@ namespace Äventyrspel_v2.Systems {
         //Shows the players stats on death
         void ShowStats(int DaysAlive) {
 
-            Console.WriteLine("Days stayed alive: " + DaysAlive);
-            Console.WriteLine("Player XP: " + PlayerXP);
-            Console.WriteLine("Player level: " + PlayerLevel);
-            Console.WriteLine("Enemies killed: " + EnemiesKilled);
-            Console.WriteLine("Cause of death: " + CauseOfDeath);
-            Console.WriteLine("Number of attacks crafted: " + (Attacks.Count - 2));
+            Print.PrintMiddle("Days stayed alive: ", false, 0, 4);
+            Print.PrintColorText(DaysAlive.ToString() + "\n", ConsoleColor.DarkRed);
+
+            Print.PrintMiddle("Player XP: ", false,  0, 12);
+            Print.PrintColorText(PlayerXP.ToString() + "\n", ConsoleColor.DarkRed);
+
+            Print.PrintMiddle("Player level: ", false, 0, 8);
+            Print.PrintColorText(PlayerLevel.ToString() + "\n", ConsoleColor.DarkRed);
+
+            Print.PrintMiddle("Enemies killed: ", false, 0, 6);
+            Print.PrintColorText(EnemiesKilled.ToString() + "\n", ConsoleColor.DarkRed);
+
+            Print.PrintMiddle("Cause of death: ", false, 0, 6);
+            Print.PrintColorText(CauseOfDeath + "\n", ConsoleColor.DarkRed);
+
+            Print.PrintMiddle("Number of attacks crafted: ", false, 0, -4);
+            Print.PrintColorText((Attacks.Count - 2).ToString() + "\n", ConsoleColor.DarkRed);
+
+            Console.WriteLine();
 
         }
 

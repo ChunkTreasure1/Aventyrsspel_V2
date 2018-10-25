@@ -37,10 +37,18 @@ namespace Äventyrspel_v2 {
 
         }
 
-        public static void PrintMiddle(string text, int offsetY, int offsetX) {
+        public static void PrintMiddle(string text, bool line, int offsetY, int offsetX) {
 
             Console.SetCursorPosition((Console.WindowWidth - text.Length - offsetX) / 2, Console.CursorTop + offsetY);
-            Console.WriteLine(text);
+
+            if (line)
+            {
+                Console.WriteLine(text);
+            }
+            else
+            {
+                Console.Write(text);
+            }
         }
 
     }

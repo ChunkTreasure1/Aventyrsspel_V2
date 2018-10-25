@@ -288,7 +288,7 @@ namespace Äventyrspel_v2 {
             };
 
             foreach (string line in startScreen) {
-                Print.PrintMiddle(line, 0, 0);
+                Print.PrintMiddle(line, true, 0, 0);
                 System.Threading.Thread.Sleep(5);
             }
 
