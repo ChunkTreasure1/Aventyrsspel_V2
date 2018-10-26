@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Äventyrspel_v2.Systems {
+namespace Äventyrspel_v2.Systems
+{
 
-    struct Recipe {
+    struct Recipe
+    {
 
         public string name;
         public Item craftingItem1;
@@ -17,7 +19,8 @@ namespace Äventyrspel_v2.Systems {
 
     }
 
-    class CraftingSystem {
+    class CraftingSystem
+    {
 
         public List<Recipe> Recipes = new List<Recipe>();
 
@@ -30,14 +33,16 @@ namespace Äventyrspel_v2.Systems {
         public Recipe NailgunShotRes = new Recipe();
 
         //Crafts a new attack from two items
-        public void Craft(InventorySystem playerInventory, FightSystem fightSystem, int attackToCraft) {
+        public void Craft(InventorySystem playerInventory, FightSystem fightSystem, int attackToCraft)
+        {
 
             //Get the crafting items
             Item craftingItem1 = Recipes[attackToCraft].craftingItem1;
             Item craftingItem2 = Recipes[attackToCraft].craftingItem2;
 
             //If the player has both the needed items in it's inventory
-            if (playerInventory.Inventory.Contains(craftingItem1) && playerInventory.Inventory.Contains(craftingItem2)) {
+            if (playerInventory.Inventory.Contains(craftingItem1) && playerInventory.Inventory.Contains(craftingItem2))
+            {
 
                 //Add the attack to the players attacks
                 //Then remove the recipe
@@ -51,7 +56,8 @@ namespace Äventyrspel_v2.Systems {
 
             }
             //If the player doesn't have the required items
-            else {
+            else
+            {
 
                 //Tell the player that it doesn't have the required items, and send it back
                 Console.Clear();
@@ -64,11 +70,13 @@ namespace Äventyrspel_v2.Systems {
         }
 
         //Shows the crafting menu
-        public void ShowCraftingMenu(FightSystem fightSystem, InventorySystem playerInventory) {
+        public void ShowCraftingMenu(FightSystem fightSystem, InventorySystem playerInventory)
+        {
 
             bool inMenu = true;
 
-            while (inMenu) {
+            while (inMenu)
+            {
 
                 //Tell the player it's attack amount
                 Console.Clear();
@@ -77,7 +85,8 @@ namespace Äventyrspel_v2.Systems {
                 Console.WriteLine();
 
                 //Print out all the recipes and it's needed items
-                for (int i = 0; i < Recipes.Count; i++) {
+                for (int i = 0; i < Recipes.Count; i++)
+                {
 
                     Console.WriteLine((i + 1) + ". " + Recipes[i].name + " - " + "Items needed: " + "1. " +
                         Recipes[i].craftingItem1.ItemName + " and " + "1. " + Recipes[i].craftingItem2.ItemName);
@@ -87,7 +96,8 @@ namespace Äventyrspel_v2.Systems {
                 int selection = Convert.ToInt32(Console.ReadLine());
 
                 //If the player chooses to exit
-                if (selection == 0) {
+                if (selection == 0)
+                {
 
                     inMenu = false;
                     return;
@@ -99,22 +109,26 @@ namespace Äventyrspel_v2.Systems {
                 bool selected = false;
 
                 //While the player hasn't selected a recipe to craft
-                while (!selected) {
+                while (!selected)
+                {
 
                     //If the selection - 1 is equal to the always incrementing j, craft that item
-                    if ((selection - 1) == j) {
+                    if ((selection - 1) == j)
+                    {
 
                         Craft(playerInventory, fightSystem, selection - 1);
                         selected = true;
                     }
 
                     //If j minus 1 is equal to the number of elements in the recipes list
-                    if (j - 1 == Recipes.Count) {
-                        
+                    if (j - 1 == Recipes.Count)
+                    {
+
                         //Set j to zero
                         j = 0;
                     }
-                    else {
+                    else
+                    {
 
                         //Otherwise increment it
                         j++;

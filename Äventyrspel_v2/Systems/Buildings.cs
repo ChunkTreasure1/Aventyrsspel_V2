@@ -12,8 +12,10 @@ Purpose : Handels the random generation of buildings
 
 -------------------------------------------------------------------------------*/
 
-namespace Äventyrspel_v2.Systems {
-    class Buildings {
+namespace Äventyrspel_v2.Systems
+{
+    class Buildings
+    {
 
         public List<Enemy> Enemies = new List<Enemy>();
 
@@ -22,7 +24,8 @@ namespace Äventyrspel_v2.Systems {
 
         //Generates random buildings when player 
         //decides to go out and venture
-        public void GenerateRandomBuilding(List<Attack> attacks, FightSystem fightSystem) {
+        public void GenerateRandomBuilding(List<Attack> attacks, FightSystem fightSystem)
+        {
 
             //Clear the list of enemies in the building at start
             Enemies.Clear();
@@ -32,17 +35,19 @@ namespace Äventyrspel_v2.Systems {
             int enemies = randomEnemies.Next(RandomEnemyCountMin, RandomEnemyCountMax + 1);
 
             //Generates the enemies
-            for (int i = 0; i < enemies; i++) {
+            for (int i = 0; i < enemies; i++)
+            {
 
                 //Called to generate an enemy
                 Enemies.Add(GenerateEnemy(attacks, fightSystem, randomEnemies));
 
-            } 
+            }
 
         }
 
         //Generates an enemy
-        Enemy GenerateEnemy(List<Attack> attacks, FightSystem fightSystem, Random random) {
+        Enemy GenerateEnemy(List<Attack> attacks, FightSystem fightSystem, Random random)
+        {
 
             List<string> names = new List<string>();
 
@@ -56,33 +61,21 @@ namespace Äventyrspel_v2.Systems {
             Enemy newEnemy = new Enemy();
 
             //Set the enemy's health based on the players level
-            if (fightSystem.PlayerLevel >= 15) {
-
-                newEnemy.Health = random.Next(80, 150 + 1);
-
-            }
-            else if (fightSystem.PlayerLevel >= 10){
-
-                newEnemy.Health = random.Next(50, 100 + 1);
-
-            }
-            else if (fightSystem.PlayerLevel >= 1) {
-
-                newEnemy.Health = random.Next(30, 60 + 1);
-
-            }
+            newEnemy.Health = random.Next(fightSystem.PlayerLevel * 10, (fightSystem.PlayerLevel * 2) * 10 + 30);
 
             newEnemy.MaxEnemyAttacks = random.Next(2, 5 + 1);
             newEnemy.name = names[random.Next(0, 5)];
 
             //If the enemy has more than three attacks
-            if (newEnemy.MaxEnemyAttacks > 3) {
+            if (newEnemy.MaxEnemyAttacks > 3)
+            {
 
                 //Generate a random amount of xp between 70 and 110
                 newEnemy.XP = random.Next(70, 110);
 
             }
-            else {
+            else
+            {
 
                 //Generate a random amount of xp between 30 and 70
                 newEnemy.XP = random.Next(30, 70 + 1);
@@ -90,15 +83,18 @@ namespace Äventyrspel_v2.Systems {
             }
 
             //Add all the attacks to the enemys attack array
-            for (int i = 0; i < newEnemy.MaxEnemyAttacks; i++) {
+            for (int i = 0; i < newEnemy.MaxEnemyAttacks; i++)
+            {
 
                 newEnemy.EnemyAttacks.Add(attacks[random.Next(0, attacks.Count)]);
 
                 //Check if sniper or rocket attack is added
-                if (newEnemy.EnemyAttacks[i].AttackName == "Sniper Shot" || newEnemy.EnemyAttacks[i].AttackName == "Rocket") {
+                if (newEnemy.EnemyAttacks[i].AttackName == "Sniper Shot" || newEnemy.EnemyAttacks[i].AttackName == "Rocket")
+                {
 
                     //Check if player is below level 15
-                    if (fightSystem.PlayerLevel < 15) {
+                    if (fightSystem.PlayerLevel < 8)
+                    {
 
                         //Remove the attack
                         newEnemy.EnemyAttacks.RemoveAt(i);

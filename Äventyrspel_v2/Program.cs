@@ -1,11 +1,14 @@
 ﻿using System;
 
-namespace Äventyrspel_v2 {
+namespace Äventyrspel_v2
+{
 
-    class Program {
+    class Program
+    {
 
         //The main entry point
-        static void Main(string[] args) {
+        static void Main(string[] args)
+        {
 
             //Sets the colors of the console
             Console.BackgroundColor = ConsoleColor.White;
@@ -26,9 +29,11 @@ namespace Äventyrspel_v2 {
 
     }
 
-    class Print {
+    class Print
+    {
 
-        public static void PrintColorText(string text, ConsoleColor color) {
+        public static void PrintColorText(string text, ConsoleColor color)
+        {
 
             Console.ForegroundColor = color;
             Console.Write(text);
@@ -37,7 +42,8 @@ namespace Äventyrspel_v2 {
 
         }
 
-        public static void PrintMiddle(string text, bool line, int offsetY, int offsetX) {
+        public static void PrintMiddle(string text, bool line, int offsetY, int offsetX)
+        {
 
             Console.SetCursorPosition((Console.WindowWidth - text.Length - offsetX) / 2, Console.CursorTop + offsetY);
 

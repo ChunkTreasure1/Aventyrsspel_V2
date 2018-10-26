@@ -10,8 +10,10 @@ Purpose : Handels the players inventory
 
 -------------------------------------------------------------------------------*/
 
-namespace Äventyrspel_v2.Systems {
-    class InventorySystem {
+namespace Äventyrspel_v2.Systems
+{
+    class InventorySystem
+    {
 
         public List<Item> Inventory = new List<Item>();
         List<Food> Foods = new List<Food>();
@@ -45,10 +47,12 @@ namespace Äventyrspel_v2.Systems {
         int MaxInventorySize = 10;
 
         //Adds an item to the inventory
-        public void PickupItem(Item item) {
+        public void PickupItem(Item item)
+        {
 
             //If the players inventory isn't full
-            if (Inventory.Count < MaxInventorySize) {
+            if (Inventory.Count < MaxInventorySize)
+            {
 
                 //Add the item
                 Inventory.Add(item);
@@ -60,11 +64,13 @@ namespace Äventyrspel_v2.Systems {
         }
 
         //Drops an item from the players inventory
-        public void DropItem(InventorySystem playerInventory, FightSystem fightSystem) {
+        public void DropItem(InventorySystem playerInventory, FightSystem fightSystem)
+        {
 
             bool hasDropped = false;
 
-            while (hasDropped) {
+            while (hasDropped)
+            {
 
                 ShowInventory(playerInventory, fightSystem);
                 Console.WriteLine("Choose an item to drop or go back using 0");
@@ -72,13 +78,15 @@ namespace Äventyrspel_v2.Systems {
                 int itemToDrop = Convert.ToInt32(Console.ReadLine());
 
                 //If the player chose a wrong number
-                if (itemToDrop > Inventory.Count) {
+                if (itemToDrop > Inventory.Count)
+                {
 
                     Console.WriteLine("You don't have that many items!");
 
                 }
                 //If the player entered a valid number
-                else if (itemToDrop <= Inventory.Count) {
+                else if (itemToDrop <= Inventory.Count)
+                {
 
                     //Remove the item
                     Inventory.RemoveAt(itemToDrop - 1);
@@ -91,13 +99,15 @@ namespace Äventyrspel_v2.Systems {
         }
 
         //Shows the players inventory
-        public void ShowInventory(InventorySystem playerInventory, FightSystem fightSystem) {
+        public void ShowInventory(InventorySystem playerInventory, FightSystem fightSystem)
+        {
 
             Console.Clear();
             Console.WriteLine("Your Inventory: ");
 
             //Go through every element in the inventory
-            for (int i = 0; i < Inventory.Count; i++) {
+            for (int i = 0; i < Inventory.Count; i++)
+            {
 
                 //Write out every item
                 Console.WriteLine((i + 1) + ". " + Inventory[i].ItemName);
@@ -110,20 +120,23 @@ namespace Äventyrspel_v2.Systems {
             string input = Console.ReadLine();
 
             //If the player chooses 0
-            if (input == "0") {
+            if (input == "0")
+            {
 
                 //Show the crafting menu
                 PlayerCrafting.ShowCraftingMenu(fightSystem, playerInventory);
 
             }
-            else {
+            else
+            {
                 return;
             }
 
         }
 
         //Add food item
-        public void AddFood(Food food) {
+        public void AddFood(Food food)
+        {
 
             Foods.Add(food);
 
@@ -132,13 +145,15 @@ namespace Äventyrspel_v2.Systems {
         }
 
         //Access the food menu
-        public void AccessFoodMenu(FightSystem fightSystem) {
+        public void AccessFoodMenu(FightSystem fightSystem)
+        {
 
             //Tell the player it's health and show the food in the food inventory
             Console.Clear();
             bool inMenu = true;
 
-            while (inMenu) {
+            while (inMenu)
+            {
 
                 Console.Clear();
 
@@ -149,11 +164,12 @@ namespace Äventyrspel_v2.Systems {
                 Print.PrintColorText(fightSystem.FoodValue.ToString(), ConsoleColor.DarkYellow);
 
                 Console.Write("/");
-                Print.PrintColorText("100" + "\n", ConsoleColor.Green);    
+                Print.PrintColorText("100" + "\n", ConsoleColor.Green);
                 Console.WriteLine("Choose a food item to eat or choose 0 to quit");
 
                 //Show all the food items
-                for (int i = 0; i < Foods.Count; i++) {
+                for (int i = 0; i < Foods.Count; i++)
+                {
 
                     //Shows the food and it's healing power
                     Console.WriteLine((i + 1) + ". " + Foods[i].FoodName + " - " + "+" + Foods[i].HealingPower + ", +" + Foods[i].FoodPower);
@@ -164,7 +180,8 @@ namespace Äventyrspel_v2.Systems {
                 int selection = Convert.ToInt32(Console.ReadLine());
 
                 //If the player chooses 0
-                if (selection == 0) {
+                if (selection == 0)
+                {
 
                     inMenu = false;
                     return;
@@ -176,10 +193,12 @@ namespace Äventyrspel_v2.Systems {
                 bool notSelected = true;
 
                 //While the player hasn't selected an item
-                while (notSelected) {
+                while (notSelected)
+                {
 
                     //If selection - 1 is equal to the always increameanting j eat that item
-                    if ((selection - 1) == j) {
+                    if ((selection - 1) == j)
+                    {
 
                         inMenu = false;
                         Eat(selection - 1, fightSystem);
@@ -187,11 +206,13 @@ namespace Äventyrspel_v2.Systems {
                     }
 
                     //If j is equal to the number of elements in the foods list
-                    if (j - 1 == Foods.Count) {
+                    if (j - 1 == Foods.Count)
+                    {
                         //Set j to zero
                         j = 0;
                     }
-                    else {
+                    else
+                    {
                         //Otherwise increment it
                         j++;
                     }
@@ -203,7 +224,8 @@ namespace Äventyrspel_v2.Systems {
         }
 
         //Eats a food item
-        public void Eat(int foodToEat, FightSystem fightSystem) {
+        public void Eat(int foodToEat, FightSystem fightSystem)
+        {
 
             Console.Clear();
 
@@ -221,7 +243,8 @@ namespace Äventyrspel_v2.Systems {
         }
 
         //Sets all of the recipes values
-        public void SetRecipes(FightSystem fightSystem) {
+        public void SetRecipes(FightSystem fightSystem)
+        {
 
             //Spear throw
             PlayerCrafting.SpearThrowRes.name = "Spear throw";
@@ -292,13 +315,15 @@ namespace Äventyrspel_v2.Systems {
 
     }
 
-    class Item {
+    class Item
+    {
 
         public string ItemName;
 
     }
 
-    class Food {
+    class Food
+    {
 
         public int HealingPower;
         public int FoodPower;

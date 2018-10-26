@@ -13,10 +13,13 @@ Purpose : The main game file
 
 -------------------------------------------------------------------------------*/
 
-namespace Äventyrspel_v2 {
-    class Game {
+namespace Äventyrspel_v2
+{
+    class Game
+    {
 
-        enum EGameConditions {
+        enum EGameConditions
+        {
 
             eGC_PlainCity,
             eGC_Manhattan,
@@ -60,7 +63,8 @@ namespace Äventyrspel_v2 {
         int RandomLootAmountMin;
 
         //Method that handels all the start funcitonality
-        public void StartGame() {
+        public void StartGame()
+        {
 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Music/background_music.wav";
@@ -74,7 +78,8 @@ namespace Äventyrspel_v2 {
             //Bool to check if the player has confirmed it's name
             bool isConfirmed = false;
 
-            while (!isConfirmed) {
+            while (!isConfirmed)
+            {
 
                 Console.Write("Please state your name: ");
                 PlayerName = Console.ReadLine();
@@ -88,7 +93,8 @@ namespace Äventyrspel_v2 {
                 string answer = Console.ReadLine();
 
                 //If the player answered YES
-                if (answer == "Y" || answer == "y") {
+                if (answer == "Y" || answer == "y")
+                {
 
                     //Clear the screen and continue
                     Console.Clear();
@@ -100,7 +106,8 @@ namespace Äventyrspel_v2 {
 
                 }
                 //If the player answered NO
-                else if (answer == "N" || answer == "n") {
+                else if (answer == "N" || answer == "n")
+                {
 
                     //Clear the screen and continue
                     Console.Clear();
@@ -110,7 +117,8 @@ namespace Äventyrspel_v2 {
                     Console.ReadKey();
 
                 }
-                else {
+                else
+                {
 
                     //Clear the screen and let the player re enter it's name
                     //as this is assuming that it's a no
@@ -135,7 +143,8 @@ namespace Äventyrspel_v2 {
             SetGameConditions();
             PlayerInventory.SetRecipes(PlayerFightSystem);
 
-            Thread t1 = new Thread(() => {
+            Thread t1 = new Thread(() =>
+            {
 
                 System.Timers.Timer GameTimer = null;
                 bool timerSet = false;
@@ -143,19 +152,23 @@ namespace Äventyrspel_v2 {
                 StartGameTimer();
 
                 //Starts the games time timer
-                void StartGameTimer() {
+                void StartGameTimer()
+                {
 
                     //Always run this loop
-                    while (true) {
+                    while (true)
+                    {
 
-                        if (!timerSet) {
+                        if (!timerSet)
+                        {
                             //Start a game timer that lasts for one game hour
                             GameTimer = SetGameTimer(2500);
                             timerSet = true;
                         }
 
                         //If GameHours is equal to or greater than 24
-                        if (GameHours >= 24) {
+                        if (GameHours >= 24)
+                        {
 
                             //Set game hours to 0 and and add one to the days
                             GameHours = 0;
@@ -164,10 +177,11 @@ namespace Äventyrspel_v2 {
                         }
 
                         //If the players XP is greater than the players level times 100
-                        if (PlayerFightSystem.PlayerXP >= PlayerFightSystem.PlayerLevel * 100) {
+                        if (PlayerFightSystem.PlayerXP >= PlayerFightSystem.PlayerLevel * 100)
+                        {
 
                             int diff = PlayerFightSystem.PlayerXP - PlayerFightSystem.PlayerLevel * 100;
-                            MaxPlayerHealth += 10;
+                            MaxPlayerHealth = PlayerFightSystem.PlayerLevel * 20 + 20;
 
                             //Increase the player level and set the player xp to 0
                             //Also add the difference to not lose any XP when leveling
@@ -184,15 +198,18 @@ namespace Äventyrspel_v2 {
                 }
 
                 //Called when the game timer has elapsed
-                void GameTimerElapsed(object sender, ElapsedEventArgs e) {
+                void GameTimerElapsed(object sender, ElapsedEventArgs e)
+                {
 
                     GameHours++;
 
-                    if (PlayerFightSystem.PlayerLevel > 15) {
+                    if (PlayerFightSystem.PlayerLevel > 15)
+                    {
 
                         PlayerFightSystem.FoodValue -= 2;
                     }
-                    else {
+                    else
+                    {
 
 
                         PlayerFightSystem.FoodValue -= 1;
@@ -205,7 +222,8 @@ namespace Äventyrspel_v2 {
                 }
 
                 //Creates a game timer
-                System.Timers.Timer SetGameTimer(int time) {
+                System.Timers.Timer SetGameTimer(int time)
+                {
 
                     System.Timers.Timer aTimer = new System.Timers.Timer();
                     aTimer.Elapsed += new ElapsedEventHandler(GameTimerElapsed);
@@ -219,38 +237,45 @@ namespace Äventyrspel_v2 {
             });
             t1.Start();
 
-            Thread t2 = new Thread(() => {
+            Thread t2 = new Thread(() =>
+            {
 
-                while (PlayerFightSystem.IsAlive) {
+                while (PlayerFightSystem.IsAlive)
+                {
 
                     //If the player hunger value is between 90 and 100
-                    if (PlayerFightSystem.FoodValue > 90 && PlayerFightSystem.FoodValue <= 100) {
+                    if (PlayerFightSystem.FoodValue > 90 && PlayerFightSystem.FoodValue <= 100)
+                    {
 
                         //Set the hunger status to full
                         HungerStatus = "Full";
 
                     }
                     //If the player hunger value is between 50 and 100
-                    else if (PlayerFightSystem.FoodValue > 50 && PlayerFightSystem.FoodValue <= 90) {
+                    else if (PlayerFightSystem.FoodValue > 50 && PlayerFightSystem.FoodValue <= 90)
+                    {
 
                         //Set the hunger status to hungry
                         HungerStatus = "Hungry";
 
                     }
-                    else if (PlayerFightSystem.FoodValue > 20 && PlayerFightSystem.FoodValue <= 50) {
+                    else if (PlayerFightSystem.FoodValue > 20 && PlayerFightSystem.FoodValue <= 50)
+                    {
 
                         //Set the hunger status to very hungry
                         HungerStatus = "Very hungry";
 
                     }
-                    else if (PlayerFightSystem.FoodValue > 1 && PlayerFightSystem.FoodValue <= 20) {
+                    else if (PlayerFightSystem.FoodValue > 1 && PlayerFightSystem.FoodValue <= 20)
+                    {
 
                         //Set the hunger status to starving
                         HungerStatus = "Starving";
 
                     }
 
-                    if (PlayerFightSystem.PlayerHealth > MaxPlayerHealth) {
+                    if (PlayerFightSystem.PlayerHealth > MaxPlayerHealth)
+                    {
 
                         PlayerFightSystem.PlayerHealth = MaxPlayerHealth;
 
@@ -267,7 +292,8 @@ namespace Äventyrspel_v2 {
         }
 
         //Shows the start screen. Called at the start of the game
-        void ShowStartScreen() {
+        void ShowStartScreen()
+        {
 
             var startScreen = new[] {
 
@@ -287,7 +313,8 @@ namespace Äventyrspel_v2 {
                 @"----------------------------------------------------------------------",
             };
 
-            foreach (string line in startScreen) {
+            foreach (string line in startScreen)
+            {
                 Print.PrintMiddle(line, true, 0, 0);
                 System.Threading.Thread.Sleep(5);
             }
@@ -295,7 +322,8 @@ namespace Äventyrspel_v2 {
         }
 
         //Lets the player choose the it's start location
-        void ChooseStartLocation() {
+        void ChooseStartLocation()
+        {
 
             //Clear the console
             Console.Clear();
@@ -304,7 +332,8 @@ namespace Äventyrspel_v2 {
             bool hasChosen = false;
 
             //While the player has not chosen a start location
-            while (!hasChosen) {
+            while (!hasChosen)
+            {
 
                 //Show the start locations
                 Console.WriteLine("Time to choose a starting location!");
@@ -314,25 +343,29 @@ namespace Äventyrspel_v2 {
 
                 string location = Console.ReadLine();
 
-                if (location == "1") {
+                if (location == "1")
+                {
                     //Set the game conditions to Plain City
                     ConditionsToUse = EGameConditions.eGC_PlainCity;
                     hasChosen = true;
                     break;
                 }
-                else if (location == "2") {
+                else if (location == "2")
+                {
                     //Set the game conditions to Manhattan
                     ConditionsToUse = EGameConditions.eGC_Manhattan;
                     hasChosen = true;
                     break;
                 }
-                else if (location == "3") {
+                else if (location == "3")
+                {
                     //Set the game conditions to Las Vegas
                     ConditionsToUse = EGameConditions.eGC_LasVegas;
                     hasChosen = true;
                     break;
                 }
-                else {
+                else
+                {
                     Console.WriteLine("Incorrect input!");
                     Console.WriteLine("Press ENTER to continue");
                     Console.ReadKey();
@@ -345,10 +378,12 @@ namespace Äventyrspel_v2 {
         }
 
         //Sets the conditions of the game
-        void SetGameConditions() {
+        void SetGameConditions()
+        {
 
             //If the game conditions are set to Las Vegas
-            if (ConditionsToUse == EGameConditions.eGC_LasVegas) {
+            if (ConditionsToUse == EGameConditions.eGC_LasVegas)
+            {
 
                 //Set the vars
                 RandomBuildings.RandomEnemyCountMax = 5;
@@ -365,7 +400,8 @@ namespace Äventyrspel_v2 {
                 PlayerFightSystem.AddAttack(PlayerFightSystem.ShotgunShot);
 
             }
-            else if (ConditionsToUse == EGameConditions.eGC_Manhattan) {
+            else if (ConditionsToUse == EGameConditions.eGC_Manhattan)
+            {
 
                 //Set the vars
                 RandomBuildings.RandomEnemyCountMax = 7;
@@ -382,7 +418,8 @@ namespace Äventyrspel_v2 {
                 PlayerFightSystem.AddAttack(PlayerFightSystem.ShotgunShot);
 
             }
-            else if (ConditionsToUse == EGameConditions.eGC_PlainCity) {
+            else if (ConditionsToUse == EGameConditions.eGC_PlainCity)
+            {
 
                 //Set the vars
                 RandomBuildings.RandomEnemyCountMax = 3;
@@ -403,20 +440,25 @@ namespace Äventyrspel_v2 {
         }
 
         //Shows the main UI
-        void ShowMainUI() {
+        void ShowMainUI()
+        {
 
-            if (PlayerFightSystem.IsAlive) {
+            if (PlayerFightSystem.IsAlive)
+            {
 
                 //Always runs because we should always get back here
-                while (true) {
+                while (true)
+                {
                     Console.Clear();
                     bool inMenu = true;
 
                     //The main UI thread
-                    Thread UI = new Thread(() => {
+                    Thread UI = new Thread(() =>
+                    {
 
                         //Do while in menu
-                        while (inMenu) {
+                        while (inMenu)
+                        {
 
                             //Clear the console
                             Console.Clear();
@@ -451,11 +493,13 @@ namespace Äventyrspel_v2 {
                             };
 
                             //Show the menu with a short delay between the lines to give an effect
-                            foreach (string line in menu) {
+                            foreach (string line in menu)
+                            {
                                 Console.WriteLine(line);
                             }
 
-                            if (inMenu) {
+                            if (inMenu)
+                            {
                                 Thread.Sleep(2000);
                             }
 
@@ -468,7 +512,8 @@ namespace Äventyrspel_v2 {
                     string playerChoice = Console.ReadLine();
 
                     //If the player choses one
-                    if (playerChoice == "1") {
+                    if (playerChoice == "1")
+                    {
 
                         //Let's the player go out and search for 
                         inMenu = false;
@@ -476,7 +521,8 @@ namespace Äventyrspel_v2 {
                         GoOut();
                     }
                     //If the player choses two
-                    else if (playerChoice == "2") {
+                    else if (playerChoice == "2")
+                    {
 
                         //Let's the player sleep
                         inMenu = false;
@@ -485,7 +531,8 @@ namespace Äventyrspel_v2 {
 
                     }
                     //If the player choses three
-                    else if (playerChoice == "3") {
+                    else if (playerChoice == "3")
+                    {
 
                         //Shows the inventory
                         inMenu = false;
@@ -493,7 +540,8 @@ namespace Äventyrspel_v2 {
                         PlayerInventory.ShowInventory(PlayerInventory, PlayerFightSystem);
                     }
                     //If the player choses four
-                    else if (playerChoice == "4") {
+                    else if (playerChoice == "4")
+                    {
 
                         //Show the food menu
                         inMenu = false;
@@ -501,14 +549,16 @@ namespace Äventyrspel_v2 {
                         PlayerInventory.AccessFoodMenu(PlayerFightSystem);
                     }
                     //If the player choses five
-                    else if (playerChoice == "5") {
+                    else if (playerChoice == "5")
+                    {
 
                         //Show the help menu
                         inMenu = false;
                         UI.Join();
                         ShowHelp();
                     }
-                    else {
+                    else
+                    {
 
                         Console.WriteLine("Incorrect input!");
                         Console.WriteLine("Press ENTER to continue");
@@ -519,7 +569,8 @@ namespace Äventyrspel_v2 {
                     }
 
                     //Check if players food level is less than zero
-                    if (PlayerFightSystem.FoodValue <= 0) {
+                    if (PlayerFightSystem.FoodValue <= 0)
+                    {
 
                         //Show the game over screen
                         PlayerFightSystem.ShowGameOver(DaysAlive);
@@ -527,14 +578,16 @@ namespace Äventyrspel_v2 {
 
                 }
             }
-            else {
+            else
+            {
                 PlayerFightSystem.ShowGameOver(DaysAlive);
                 PlayerFightSystem.CauseOfDeath = "Starving";
             }
         }
 
         //Shows the help menu
-        void ShowHelp() {
+        void ShowHelp()
+        {
 
             Console.Clear();
 
@@ -569,7 +622,8 @@ namespace Äventyrspel_v2 {
             };
 
             //Print the text
-            foreach (string line in help) {
+            foreach (string line in help)
+            {
 
                 Console.WriteLine(line);
 
@@ -583,7 +637,8 @@ namespace Äventyrspel_v2 {
         }
 
         //Called when the player wants to sleep
-        void StartSleep() {
+        void StartSleep()
+        {
 
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
@@ -600,10 +655,12 @@ namespace Äventyrspel_v2 {
 
             //Create the timer for how long the while loop should run
             SleepTimer = SetSleepTimer(randomSleepTime);
-            while (IsSleeping) {
+            while (IsSleeping)
+            {
 
                 Console.SetCursorPosition(0, 5);
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 3; i++)
+                {
 
                     Console.Write(".");
                     Thread.Sleep(200);
@@ -628,17 +685,20 @@ namespace Äventyrspel_v2 {
         }
 
         //Called when the player wants to go out and venture
-        void GoOut() {
+        void GoOut()
+        {
 
             bool isOut = true;
 
             //While the player is out walking
-            while (isOut) {
+            while (isOut)
+            {
 
                 IsWalking = true;
 
                 //While the player is walking and not in a building
-                while (IsWalking) {
+                while (IsWalking)
+                {
 
                     Console.Clear();
                     Console.Write("Walking");
@@ -648,14 +708,16 @@ namespace Äventyrspel_v2 {
                     int randomHouseDist = randomDisance.Next(RandomBuildingDistanceMin, RandomBuildingDistanceMax + 1);
 
                     //If the walk timer is'nt set and the player is still walking
-                    if (!WalkTimerSet && IsWalking) {
+                    if (!WalkTimerSet && IsWalking)
+                    {
 
                         //Set the walk timer
                         WalkTimer = SetWalkTimer(randomHouseDist);
                         WalkTimerSet = true;
                     }
                     //Show the dots
-                    for (int i = 0; i < 3; i++) {
+                    for (int i = 0; i < 3; i++)
+                    {
 
                         Console.Write(".");
                         Thread.Sleep(200);
@@ -664,7 +726,8 @@ namespace Äventyrspel_v2 {
                 }
 
                 //Check if player food is less than 0
-                if (PlayerFightSystem.FoodValue <= 0) {
+                if (PlayerFightSystem.FoodValue <= 0)
+                {
 
                     //Kill the player
                     PlayerFightSystem.ShowGameOver(DaysAlive);
@@ -674,7 +737,8 @@ namespace Äventyrspel_v2 {
                 RandomBuildings.GenerateRandomBuilding(AllAttacks, PlayerFightSystem);
 
                 //Attack the enemies
-                for (int i = 0; i < RandomBuildings.Enemies.Count; i++) {
+                for (int i = 0; i < RandomBuildings.Enemies.Count; i++)
+                {
                     Console.Clear();
 
                     Console.WriteLine("You've entered a building and met an enemy named '" + RandomBuildings.Enemies[i].name + "'!");
@@ -691,7 +755,8 @@ namespace Äventyrspel_v2 {
 
                     //Runs while the player hasn't decided wether to eat or not
                     bool hasDecided = false;
-                    while (!hasDecided) {
+                    while (!hasDecided)
+                    {
 
                         Console.Clear();
 
@@ -701,7 +766,8 @@ namespace Äventyrspel_v2 {
                         //Get the players input and check what it was
                         string healInput = Console.ReadLine();
                         //If the player chooses yes
-                        if (healInput == "Y" || healInput == "y") {
+                        if (healInput == "Y" || healInput == "y")
+                        {
 
                             //Access the food menu
                             PlayerInventory.AccessFoodMenu(PlayerFightSystem);
@@ -709,38 +775,44 @@ namespace Äventyrspel_v2 {
 
                         }
                         //If the player chooses no
-                        else if (healInput == "N" || healInput == "n") {
+                        else if (healInput == "N" || healInput == "n")
+                        {
                             hasDecided = true;
                         }
                     }
                 }
 
                 //Check if players hunger is below 0
-                if (PlayerFightSystem.FoodValue <= 0) {
+                if (PlayerFightSystem.FoodValue <= 0)
+                {
 
                     //Kill the player
                     PlayerFightSystem.ShowGameOver(DaysAlive);
                 }
 
                 bool hasChosen = false;
-                while (!hasChosen) {
+                while (!hasChosen)
+                {
 
                     Console.WriteLine("Do you want to continue walking?");
                     Console.WriteLine("[Y]/[N]");
                     string input = Console.ReadLine();
 
                     //If the player chooses yes
-                    if (input == "Y" || input == "y") {
+                    if (input == "Y" || input == "y")
+                    {
                         isOut = true;
                         hasChosen = true;
                     }
                     //If the player chooses no
-                    else if (input == "N" || input == "n") {
+                    else if (input == "N" || input == "n")
+                    {
                         isOut = false;
                         hasChosen = true;
                     }
                     //If it's an incorrect input
-                    else {
+                    else
+                    {
 
                         Console.WriteLine("Incorrect input!");
 
@@ -753,20 +825,23 @@ namespace Äventyrspel_v2 {
         }
 
         //Gets random loot and food
-        void GetRandomFoodAndLoot() {
+        void GetRandomFoodAndLoot()
+        {
 
             Random randomItems = new Random();
 
             int randomItemAmount = randomItems.Next(RandomLootAmountMin, RandomLootAmountMax);
             int randomFoodAmount = randomItems.Next(1, 2);
 
-            for (int i = 0; i < (randomItemAmount - randomFoodAmount); i++) {
+            for (int i = 0; i < (randomItemAmount - randomFoodAmount); i++)
+            {
 
                 PlayerInventory.PickupItem(PlayerInventory.AllItems[randomItems.Next(0, PlayerInventory.AllItems.Count - 1)]);
 
             }
 
-            for (int i = 0; i < randomFoodAmount; i++) {
+            for (int i = 0; i < randomFoodAmount; i++)
+            {
 
                 PlayerInventory.AddFood(PlayerInventory.AllFood[randomItems.Next(0, PlayerInventory.AllFood.Count - 1)]);
 
@@ -775,7 +850,8 @@ namespace Äventyrspel_v2 {
         }
 
         //Creates a sleep timer
-        System.Timers.Timer SetSleepTimer(int time) {
+        System.Timers.Timer SetSleepTimer(int time)
+        {
             //Create a timer
             System.Timers.Timer aTimer = new System.Timers.Timer();
             aTimer.Elapsed += new ElapsedEventHandler(SleepTimerElapsed);
@@ -786,7 +862,8 @@ namespace Äventyrspel_v2 {
         }
 
         //Create a walk timer
-        System.Timers.Timer SetWalkTimer(int time) {
+        System.Timers.Timer SetWalkTimer(int time)
+        {
 
             //Create a timer
             System.Timers.Timer aTimer = new System.Timers.Timer();
@@ -799,14 +876,16 @@ namespace Äventyrspel_v2 {
         }
 
         //Called when the sleep timer has elapsed
-        void SleepTimerElapsed(Object source, ElapsedEventArgs args) {
+        void SleepTimerElapsed(Object source, ElapsedEventArgs args)
+        {
             IsSleeping = false;
             SleepTimer.Stop();
             SleepTimer.Dispose();
         }
 
         //Called when the walk timer has elapsed
-        void WalkTimerElapsed(Object source, ElapsedEventArgs args) {
+        void WalkTimerElapsed(Object source, ElapsedEventArgs args)
+        {
             IsWalking = false;
             WalkTimer.Stop();
             WalkTimer.Dispose();
@@ -814,7 +893,8 @@ namespace Äventyrspel_v2 {
         }
 
         //Sets up the attacks with the correct values
-        void SetAttacks() {
+        void SetAttacks()
+        {
 
             //Gunshot
             PlayerFightSystem.GunShot.AttackName = "Gunshot";
@@ -831,7 +911,7 @@ namespace Äventyrspel_v2 {
             PlayerFightSystem.ShotgunShot.AttackDamage = randomDamage.Next(10, 50);
             PlayerFightSystem.ShotgunShot.AttackSpeed = 5;
 
-            PlayerFightSystem.ShotgunShot.MaxUses = 4;
+            PlayerFightSystem.ShotgunShot.MaxUses = PlayerFightSystem.PlayerLevel * 3;
             //Shotgun shot
 
             //Sniper shot
@@ -839,7 +919,7 @@ namespace Äventyrspel_v2 {
             PlayerFightSystem.SniperShot.AttackDamage = 70;
             PlayerFightSystem.SniperShot.AttackSpeed = 2;
 
-            PlayerFightSystem.SniperShot.MaxUses = 2;
+            PlayerFightSystem.SniperShot.MaxUses = PlayerFightSystem.PlayerLevel * 2;
             //Sniper shot
 
             //Rocket
@@ -847,7 +927,7 @@ namespace Äventyrspel_v2 {
             PlayerFightSystem.Rocket.AttackDamage = 60;
             PlayerFightSystem.Rocket.AttackSpeed = 1;
 
-            PlayerFightSystem.Rocket.MaxUses = 2;
+            PlayerFightSystem.Rocket.MaxUses = PlayerFightSystem.PlayerLevel * 2;
             //Rocket
 
             //Spear throw
@@ -855,7 +935,7 @@ namespace Äventyrspel_v2 {
             PlayerFightSystem.SpearThrow.AttackDamage = 17;
             PlayerFightSystem.SpearThrow.AttackSpeed = 3;
 
-            PlayerFightSystem.SpearThrow.MaxUses = 5;
+            PlayerFightSystem.SpearThrow.MaxUses = PlayerFightSystem.PlayerLevel * 4;
             //Spear throw
 
             //Nailgun Shot
@@ -863,7 +943,7 @@ namespace Äventyrspel_v2 {
             PlayerFightSystem.NailgunShot.AttackDamage = 13;
             PlayerFightSystem.NailgunShot.AttackSpeed = 9;
 
-            PlayerFightSystem.NailgunShot.MaxUses = 6;
+            PlayerFightSystem.NailgunShot.MaxUses = PlayerFightSystem.PlayerLevel * 3;
             //Nailgun shot
 
             //Add the attacks to the Attacks list for enemy generation
@@ -878,7 +958,8 @@ namespace Äventyrspel_v2 {
         }
 
         //Sets up the foods with the correct values
-        void SetFoods() {
+        void SetFoods()
+        {
 
             //Add to the all list
             PlayerInventory.AllFood.Add(PlayerInventory.Pasta);
@@ -943,7 +1024,8 @@ namespace Äventyrspel_v2 {
         }
 
         //Sets up the items with the correct values
-        void SetItems() {
+        void SetItems()
+        {
 
             //All the items
             PlayerInventory.AllItems.Add(PlayerInventory.IronBar);
@@ -986,7 +1068,8 @@ namespace Äventyrspel_v2 {
         }
 
         //Sets the health bar
-        void SetHealthBar() {
+        void SetHealthBar()
+        {
 
             string roomBefore = "";
             string roomAfter = "";
@@ -994,20 +1077,23 @@ namespace Äventyrspel_v2 {
             double ratio = (double)PlayerFightSystem.PlayerHealth / (double)MaxPlayerHealth;
 
             //Check if the ratio is greater than 2/3
-            if (ratio > 0.66) {
+            if (ratio > 0.66)
+            {
 
                 roomAfter = "     ";
                 roomBefore = "     ";
 
             }
             //Check if the ratio is greater than 1/3
-            else if (ratio > 0.33) {
+            else if (ratio > 0.33)
+            {
 
                 roomAfter = "";
                 roomBefore = "     ";
 
             }
-            else {
+            else
+            {
 
                 roomAfter = "";
                 roomBefore = "";
@@ -1019,7 +1105,8 @@ namespace Äventyrspel_v2 {
             Console.Write(roomBefore);
 
             //Check if the ratio is over 1/3 but less than 2/3
-            if (ratio > 0.33 && ratio < 0.66) {
+            if (ratio > 0.33 && ratio < 0.66)
+            {
 
                 //Set the background color to white and type the text out
                 Console.BackgroundColor = ConsoleColor.White;
@@ -1027,14 +1114,16 @@ namespace Äventyrspel_v2 {
 
             }
             //Check if the ratio is less than 1/3
-            else if (ratio < 0.33) {
+            else if (ratio < 0.33)
+            {
 
                 //Set the background color to white and type the text out
                 Console.BackgroundColor = ConsoleColor.White;
                 Console.Write(PlayerFightSystem.PlayerHealth + "/" + MaxPlayerHealth);
 
             }
-            else {
+            else
+            {
 
                 Console.Write(PlayerFightSystem.PlayerHealth + "/" + MaxPlayerHealth);
 

@@ -11,8 +11,10 @@ Purpose : Handels the games fighting system
 
 -------------------------------------------------------------------------------*/
 
-namespace Äventyrspel_v2.Systems {
-    class FightSystem {
+namespace Äventyrspel_v2.Systems
+{
+    class FightSystem
+    {
 
         public List<Attack> Attacks = new List<Attack>();
 
@@ -35,26 +37,30 @@ namespace Äventyrspel_v2.Systems {
         public Attack NailgunShot = new Attack();
 
         //Called when the player should attack an enemy
-        public void Attack(Enemy enemyToAttack, int DaysAlive) {
-
+        public void Attack(Enemy enemyToAttack, int DaysAlive)
+        {
+         
             //Resets the attacks uses
             ResetUses();
 
             //While the player and the enemy is still alive
-            while (IsAlive && enemyToAttack.IsAlive) {
+            while (IsAlive && enemyToAttack.IsAlive)
+            {
 
                 //Get the players and the enemys attack
                 Attack attackToUse = GetAttack(enemyToAttack);
                 Attack enemyAttack = enemyToAttack.GetEnemyAttack();
 
                 //If the players attack speed is less than the enemys attack speed
-                if (attackToUse.AttackSpeed < enemyAttack.AttackSpeed) {
+                if (attackToUse.AttackSpeed < enemyAttack.AttackSpeed)
+                {
 
                     //Damage the player
                     PlayerHealth -= enemyAttack.AttackDamage;
 
                     //If both the player and the enemy is still alive
-                    if (PlayerHealth > 0 && enemyToAttack.Health > 0) {
+                    if (PlayerHealth > 0 && enemyToAttack.Health > 0)
+                    {
 
                         //Damage the enemy
                         enemyToAttack.Health -= attackToUse.AttackDamage;
@@ -69,14 +75,17 @@ namespace Äventyrspel_v2.Systems {
 
                     }
                     //If one of them is not alive
-                    else {
+                    else
+                    {
 
                         //Check who it is that is dead and end the loop
-                        if (PlayerHealth <= 0) {
+                        if (PlayerHealth <= 0)
+                        {
                             IsAlive = false;
                             break;
                         }
-                        else if (enemyToAttack.Health <= 0) {
+                        else if (enemyToAttack.Health <= 0)
+                        {
                             enemyToAttack.IsAlive = false;
                             break;
                         }
@@ -84,13 +93,15 @@ namespace Äventyrspel_v2.Systems {
                     }
                 }
                 //If the players attack speed is greater than the enemys
-                else if (attackToUse.AttackSpeed > enemyAttack.AttackSpeed) {
+                else if (attackToUse.AttackSpeed > enemyAttack.AttackSpeed)
+                {
 
                     //Damage the enemy
                     enemyToAttack.Health -= attackToUse.AttackDamage;
 
                     //If the player and the enemy is still alive
-                    if (enemyToAttack.Health > 0 && PlayerHealth > 0) {
+                    if (enemyToAttack.Health > 0 && PlayerHealth > 0)
+                    {
 
                         PlayerHealth -= enemyAttack.AttackDamage;
 
@@ -104,14 +115,17 @@ namespace Äventyrspel_v2.Systems {
 
                     }
                     //If on of them is dead
-                    else {
+                    else
+                    {
 
                         //Check who it is that is dead
-                        if (PlayerHealth <= 0) {
+                        if (PlayerHealth <= 0)
+                        {
                             IsAlive = false;
                             break;
                         }
-                        else if (enemyToAttack.Health <= 0) {
+                        else if (enemyToAttack.Health <= 0)
+                        {
                             enemyToAttack.IsAlive = false;
                             break;
                         }
@@ -120,7 +134,8 @@ namespace Äventyrspel_v2.Systems {
 
                 }
                 //If the attack speeds are the same
-                else if (attackToUse.AttackSpeed == enemyAttack.AttackSpeed) {
+                else if (attackToUse.AttackSpeed == enemyAttack.AttackSpeed)
+                {
 
                     //Tell the player that the attacks have cancelled out
                     Console.Clear();
@@ -132,10 +147,12 @@ namespace Äventyrspel_v2.Systems {
 
                 }
 
-                if (PlayerHealth <= 0) {
+                if (PlayerHealth <= 0)
+                {
                     IsAlive = false;
                 }
-                else if (enemyToAttack.Health <= 0) {
+                else if (enemyToAttack.Health <= 0)
+                {
                     enemyToAttack.IsAlive = false;
                 }
 
@@ -143,7 +160,8 @@ namespace Äventyrspel_v2.Systems {
 
             //Check if the player is alive, otherwise the player 
             //died and need to rerun the game
-            if (IsAlive) {
+            if (IsAlive)
+            {
 
                 //Tell the player that the enemy died
                 Console.Clear();
@@ -156,7 +174,8 @@ namespace Äventyrspel_v2.Systems {
                 Console.ReadKey();
 
             }
-            else {
+            else
+            {
 
                 //Tell the player that it died and that it's game over
                 Console.Clear();
@@ -173,18 +192,21 @@ namespace Äventyrspel_v2.Systems {
         }
 
         //Shows the attack list and lets you choose which to use
-        Attack GetAttack(Enemy enemyToAttack) {
+        Attack GetAttack(Enemy enemyToAttack)
+        {
 
             bool hasChosen = false;
 
-            while (!hasChosen) {
+            while (!hasChosen)
+            {
 
                 //Clears the console
                 Console.Clear();
 
                 ShowHealth(enemyToAttack);
 
-                for (int i = 0; i < Attacks.Count; i++) {
+                for (int i = 0; i < Attacks.Count; i++)
+                {
 
                     Console.Write((i + 1) + " - " + Attacks[i].AttackName + " - " + "Damage: ");
 
@@ -202,16 +224,20 @@ namespace Äventyrspel_v2.Systems {
                 bool notSelected = true;
 
                 //While the player hasn't selected an attack
-                while (notSelected) {
+                while (notSelected)
+                {
 
                     //If selection - 1 is equal to the always incrementing j, return that attack
-                    if ((selection - 1) == j) {
+                    if ((selection - 1) == j)
+                    {
 
                         //Check if j is less than the amount of elements in Attacks
-                        if (j < Attacks.Count) {
+                        if (j < Attacks.Count)
+                        {
 
                             //If the attack has uses left
-                            if (Attacks[j].Uses > 0) {
+                            if (Attacks[j].Uses > 0)
+                            {
 
                                 //Set not selected to false and return the attack
                                 Attacks[j].Uses -= 1;
@@ -219,7 +245,8 @@ namespace Äventyrspel_v2.Systems {
                                 return Attacks[j];
 
                             }
-                            else {
+                            else
+                            {
 
                                 Console.WriteLine("You don't have enough uses left!");
                                 break;
@@ -227,7 +254,8 @@ namespace Äventyrspel_v2.Systems {
                             }
 
                         }
-                        else {
+                        else
+                        {
                             //Set selected to false to re run the menu
                             notSelected = false;
                         }
@@ -235,13 +263,15 @@ namespace Äventyrspel_v2.Systems {
                     }
 
                     //If j - 1 is equal to the amount of elements in the list
-                    if (j - 1 == Attacks.Count) {
+                    if (j - 1 == Attacks.Count)
+                    {
 
                         //Set j to 0
                         j = 0;
 
                     }
-                    else {
+                    else
+                    {
                         //Otherwise increment j
                         j++;
                     }
@@ -255,7 +285,8 @@ namespace Äventyrspel_v2.Systems {
         }
 
         //Prints out the health of the player and the enemy
-        void ShowHealth(Enemy enemyToAttack) {
+        void ShowHealth(Enemy enemyToAttack)
+        {
 
             Console.Write("Enemy health: ");
 
@@ -267,7 +298,8 @@ namespace Äventyrspel_v2.Systems {
         }
 
         //Shows the game over screen
-        public void ShowGameOver(int DaysAlive) {
+        public void ShowGameOver(int DaysAlive)
+        {
 
             SoundPlayer player = new SoundPlayer();
             player.SoundLocation = AppDomain.CurrentDomain.BaseDirectory + "\\Music/game_over.wav";
@@ -294,7 +326,8 @@ namespace Äventyrspel_v2.Systems {
             };
 
             //Writes out the game over screen
-            foreach (string line in gameOverScreen) {
+            foreach (string line in gameOverScreen)
+            {
 
                 Print.PrintMiddle(line, true, 0, 0);
                 System.Threading.Thread.Sleep(30);
@@ -314,12 +347,13 @@ namespace Äventyrspel_v2.Systems {
         }
 
         //Shows the players stats on death
-        void ShowStats(int DaysAlive) {
+        void ShowStats(int DaysAlive)
+        {
 
             Print.PrintMiddle("Days stayed alive: ", false, 0, 4);
             Print.PrintColorText(DaysAlive.ToString() + "\n", ConsoleColor.DarkRed);
 
-            Print.PrintMiddle("Player XP: ", false,  0, 12);
+            Print.PrintMiddle("Player XP: ", false, 0, 12);
             Print.PrintColorText(PlayerXP.ToString() + "\n", ConsoleColor.DarkRed);
 
             Print.PrintMiddle("Player level: ", false, 0, 8);
@@ -339,14 +373,16 @@ namespace Äventyrspel_v2.Systems {
         }
 
         //Adds an attack to the attacks list
-        public void AddAttack(Attack attack) {
+        public void AddAttack(Attack attack)
+        {
 
             Attacks.Add(attack);
 
         }
 
         //Resets the attacks uses
-        void ResetUses() {
+        public void ResetUses()
+        {
 
             GunShot.Uses = GunShot.MaxUses;
             ShotgunShot.Uses = ShotgunShot.MaxUses;
@@ -359,7 +395,8 @@ namespace Äventyrspel_v2.Systems {
         }
     }
 
-    class Attack {
+    class Attack
+    {
 
         public string AttackName;
         public int AttackSpeed;
@@ -370,7 +407,8 @@ namespace Äventyrspel_v2.Systems {
 
     }
 
-    class Enemy {
+    class Enemy
+    {
 
         public string name;
 
@@ -383,7 +421,8 @@ namespace Äventyrspel_v2.Systems {
         public List<Attack> EnemyAttacks = new List<Attack>();
 
         //Gets a random attack for the enemy
-        public Attack GetEnemyAttack() {
+        public Attack GetEnemyAttack()
+        {
 
             //Returns a random attack from the list if enemy attacks
             Random random = new Random();
